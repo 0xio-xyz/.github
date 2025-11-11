@@ -105,7 +105,7 @@ Python-based core wallet functionality for Octra blockchain operations.
 | **0xio_app** | React Native mobile application | Development |
 | **0xio_SDK** | TypeScript SDK for dApp integration | Published |
 | **0xio_wallet** | Python core wallet library | Active |
-| **0xio_web** | Web wallet interface | Development |
+| **0xio_web** | Marketing website and onboarding | Live at [0xio.xyz](https://0xio.xyz) |
 | **0xio_DEX** | Decentralized exchange | Planning |
 
 ## Architecture
@@ -278,8 +278,8 @@ pip install -r requirements.txt
 - [x] Browser extension wallet (Chrome)
 - [x] Developer SDK with npm package
 - [x] Core wallet library
+- [x] Marketing website (0xio.xyz)
 - [ ] Mobile applications (iOS & Android)
-- [ ] Web wallet interface
 - [ ] Hardware wallet integration
 - [ ] Multi-signature support
 - [ ] NFT support
@@ -310,6 +310,8 @@ We welcome contributions! Please follow these guidelines:
 MIT License - see individual repository LICENSE files for details.
 
 ## Acknowledgments
+
+Built with by NullxGery (0xGery) for the Octra Network ecosystem.
 
 > **Disclaimer**: This is a community-built project for the Octra Network. It is not affiliated with, endorsed by, or maintained by the official Octra team.
 
