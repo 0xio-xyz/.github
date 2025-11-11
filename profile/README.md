@@ -8,7 +8,7 @@ A privacy-focused cryptocurrency wallet ecosystem built on the Octra blockchain 
 
 ## Products
 
-### Browser Extension Wallet
+### Browser Extension Wallet (0xio_wallet)
 **Status:** Live on Chrome Web Store
 
 The 0xio Wallet browser extension provides a secure, user-friendly interface for managing your Octra blockchain assets directly in your browser.
@@ -23,6 +23,12 @@ The 0xio Wallet browser extension provides a secure, user-friendly interface for
 - Network switching (mainnet/testnet)
 
 **Install:** [Chrome Web Store](https://chromewebstore.google.com/detail/0xio-wallet/anknhjilldkeelailocijnfibefmepcc)
+
+**Tech Stack:**
+- Vanilla JavaScript
+- Chrome Extension Manifest V3
+- NaCl cryptography library
+- Chrome Storage API
 
 ### Mobile Applications (0xio_app)
 **Status:** In Development
@@ -81,30 +87,13 @@ const balance = await wallet.getBalance();
 console.log('Balance:', balance.total, 'OCT');
 ```
 
-### Core Wallet Library (0xio_wallet)
-**Status:** Active
-
-Python-based core wallet functionality for Octra blockchain operations.
-
-**Features:**
-- Wallet generation from mnemonic
-- Public transaction creation and signing
-- Private transaction encryption/decryption
-- Octra blockchain API integration
-- Balance and transaction queries
-
-**Tech Stack:**
-- Python 3.8+
-- Octra SDK
-- Cryptography libraries
-
 ## Repositories
 
 | Repository | Description | Status |
 |------------|-------------|--------|
+| **0xio_wallet** | Browser extension wallet for Chrome | Live on [Chrome Web Store](https://chromewebstore.google.com/detail/0xio-wallet/anknhjilldkeelailocijnfibefmepcc) |
 | **0xio_app** | React Native mobile application | Development |
-| **0xio_SDK** | TypeScript SDK for dApp integration | Published |
-| **0xio_wallet** | Python core wallet library | Active |
+| **0xio_SDK** | TypeScript SDK for dApp integration | Published on [npm](https://www.npmjs.com/package/@0xgery/0xio-sdk) |
 | **0xio_web** | Marketing website and onboarding | Live at [0xio.xyz](https://0xio.xyz) |
 | **0xio_DEX** | Decentralized exchange | Planning |
 
@@ -193,7 +182,7 @@ Python-based core wallet functionality for Octra blockchain operations.
 ### For Users
 
 **Browser Extension:**
-1. Install from [Chrome Web Store](https://chromewebstore.google.com/detail/0xio-wallet/anknhjilldkeelailocijnfibefmepcc)
+1. Install from [Chrome Web Store](https://chromewebstore.google.com/detail/0xio-octra-wallet/hdakbdgpmallbjkmhloklffancbjiioo?authuser=0&hl=en)
 2. Create or import your wallet
 3. Start managing your Octra assets
 
@@ -222,7 +211,8 @@ await wallet.connect();
 ```
 
 **Documentation:**
-- [SDK Documentation](https://github.com/0xio-xyz/docs/blob/main/sdk/README.md)
+- [SDK Documentation](https://github.com/0xio-xyz/docs/tree/main/sdk)
+- [Getting Started Guide](https://github.com/0xio-xyz/docs/blob/main/sdk/getting-started.md)
 - [API Reference](https://github.com/0xio-xyz/docs/blob/main/sdk/api-reference.md)
 
 ### For Contributors
@@ -265,19 +255,18 @@ pip install -r requirements.txt
 
 ## Technology Stack
 
-| Component | Technologies |
-|-----------|-------------|
+| Component | Stack |
+|-----------|-------|
+| **Browser Extension** | Vanilla JavaScript, Manifest V3, NaCl, Chrome Storage API |
 | **Mobile App** | React Native, Expo, TypeScript, AsyncStorage |
-| **Browser Extension** | React, TypeScript, Chrome Extension API |
 | **SDK** | TypeScript, Rollup, Jest |
-| **Core Library** | Python, Octra SDK, Cryptography |
+| **Website** | HTML, CSS, JavaScript |
 | **Blockchain** | Octra Network |
 
 ## Roadmap
 
 - [x] Browser extension wallet (Chrome)
 - [x] Developer SDK with npm package
-- [x] Core wallet library
 - [x] Marketing website (0xio.xyz)
 - [ ] Mobile applications (iOS & Android)
 - [ ] Hardware wallet integration
