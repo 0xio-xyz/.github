@@ -193,7 +193,7 @@ Python-based core wallet functionality for Octra blockchain operations.
 ### For Users
 
 **Browser Extension:**
-1. Install from [Chrome Web Store](https://chromewebstore.google.com/detail/0xio-octra-wallet/hdakbdgpmallbjkmhloklffancbjiioo?authuser=0&hl=en)
+1. Install from [Chrome Web Store](https://chromewebstore.google.com/detail/0xio-wallet/anknhjilldkeelailocijnfibefmepcc)
 2. Create or import your wallet
 3. Start managing your Octra assets
 
@@ -310,8 +310,6 @@ We welcome contributions! Please follow these guidelines:
 MIT License - see individual repository LICENSE files for details.
 
 ## Acknowledgments
-
-Built with by NullxGery (0xGery) for the Octra Network ecosystem.
 
 > **Disclaimer**: This is a community-built project for the Octra Network. It is not affiliated with, endorsed by, or maintained by the official Octra team.
 
