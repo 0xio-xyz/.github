@@ -222,8 +222,8 @@ await wallet.connect();
 ```
 
 **Documentation:**
-- [SDK Documentation](./0xio_SDK/README.md)
-- [API Reference](./docs/)
+- [SDK Documentation](https://github.com/0xio-xyz/docs/blob/main/sdk/README.md)
+- [API Reference](https://github.com/0xio-xyz/docs/blob/main/sdk/api-reference.md)
 
 ### For Contributors
 
