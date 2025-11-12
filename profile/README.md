@@ -100,47 +100,51 @@ console.log('Balance:', balance.total, 'OCT');
 ## Architecture
 
 ```
-┌─────────────────────────────────────────┐
-│     Browser Extension / Mobile App      │
-│  (React/React Native + TypeScript)      │
-│  - UI/UX                                │
-│  - State Management                     │
-│  - Secure Storage                       │
-└──────────────┬──────────────────────────┘
-               │
-               │ SDK Integration
-               │
-┌──────────────▼──────────────────────────┐
-│          0xio_SDK (npm)                 │
-│  - dApp Connection Layer                │
-│  - Event Management                     │
-│  - Type Safety                          │
-└──────────────┬──────────────────────────┘
-               │
-               │ API Calls
-               │
-┌──────────────▼──────────────────────────┐
-│       Network Service Layer             │
-│  - Transaction Broadcasting             │
-│  - Balance Queries                      │
-│  - Private Transfer Management          │
-└──────────────┬──────────────────────────┘
-               │
-               │
-┌──────────────▼──────────────────────────┐
-│          0xio_wallet Library            │
-│  (Python Core)                          │
-│  - Wallet Generation                    │
-│  - Transaction Signing                  │
-│  - Encryption/Decryption                │
-└──────────────┬──────────────────────────┘
-               │
-               │
-┌──────────────▼──────────────────────────┐
-│          Octra Blockchain               │
-│  - Smart Contracts                      │
-│  - Transaction Processing               │
-└─────────────────────────────────────────┘
+┌──────────────────────────┐       ┌──────────────────────────┐
+│   0xio_wallet (Chrome)   │       │    0xio_app (Mobile)     │
+│  Vanilla JS + Manifest V3│       │  React Native + TypeScript│
+│  - Wallet Management     │       │  - Multi-wallet Support  │
+│  - NaCl Cryptography     │       │  - Private Transfers     │
+│  - Secure Storage        │       │  - QR Code Scanner       │
+└───────────┬──────────────┘       └──────────┬───────────────┘
+            │                                 │
+            │ Extension API                   │ Direct Integration
+            │                                 │
+            └──────────┬──────────────────────┘
+                       │
+            ┌──────────▼──────────────────────┐
+            │  dApps (Web Applications)       │
+            │  - React, Vue, Svelte, etc      │
+            └──────────┬──────────────────────┘
+                       │
+                       │ SDK Integration
+                       │
+            ┌──────────▼──────────────────────┐
+            │       0xio_SDK (npm)            │
+            │  - TypeScript/JavaScript        │
+            │  - Wallet Connection            │
+            │  - Event Management             │
+            │  - Type Safety                  │
+            └──────────┬──────────────────────┘
+                       │
+                       │ RPC/API Calls
+                       │
+            ┌──────────▼──────────────────────┐
+            │    Network Service Layer        │
+            │  - Transaction Broadcasting     │
+            │  - Balance Queries              │
+            │  - Private Transfer Management  │
+            │  - Block Explorer               │
+            └──────────┬──────────────────────┘
+                       │
+                       │
+            ┌──────────▼──────────────────────┐
+            │      Octra Blockchain           │
+            │  - Consensus Layer              │
+            │  - Smart Contracts              │
+            │  - Transaction Processing       │
+            │  - Encrypted Private Transfers  │
+            └─────────────────────────────────┘
 ```
 
 ## Key Features
@@ -182,7 +186,7 @@ console.log('Balance:', balance.total, 'OCT');
 ### For Users
 
 **Browser Extension:**
-1. Install from [Chrome Web Store](https://chromewebstore.google.com/detail/0xio-octra-wallet/hdakbdgpmallbjkmhloklffancbjiioo?authuser=0&hl=en)
+1. Install from [Chrome Web Store](https://chromewebstore.google.com/detail/0xio-wallet/anknhjilldkeelailocijnfibefmepcc)
 2. Create or import your wallet
 3. Start managing your Octra assets
 
@@ -219,7 +223,6 @@ await wallet.connect();
 
 **Prerequisites:**
 - Node.js 16+
-- Python 3.8+
 - Expo CLI (for mobile app)
 - TypeScript knowledge
 
@@ -228,6 +231,10 @@ await wallet.connect();
 ```bash
 # Clone repository
 git clone https://github.com/0xio/[repository-name].git
+
+# Browser Extension
+cd 0xio_wallet
+# Load unpacked extension in Chrome from this directory
 
 # Mobile App
 cd 0xio_app
@@ -238,10 +245,6 @@ npm start
 cd 0xio_SDK
 npm install
 npm run dev
-
-# Core Wallet Library
-cd 0xio_wallet
-pip install -r requirements.txt
 ```
 
 ## Security
