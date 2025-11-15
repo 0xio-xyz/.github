@@ -38,8 +38,8 @@ Native mobile wallet for iOS and Android platforms.
 **Features:**
 - Multi-wallet management
 - Public and private token transfers
-- Bulk transaction support
-- Private token claiming via encrypted transfers
+- Bulk transaction support both Public and private token transfer
+- Private token claiming for encrypted transfers
 - Transaction history
 - Theme customization (Light/Dark modes)
 - Secure encrypted storage
