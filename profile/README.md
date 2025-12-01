@@ -268,16 +268,14 @@ npm run dev
 
 ## Roadmap
 
-- [x] Browser extension wallet (Chrome)
-- [x] Developer SDK with npm package
-- [x] Marketing website (0xio.xyz)
-- [ ] Mobile applications (iOS & Android)
-- [ ] Hardware wallet integration
-- [ ] Multi-signature support
-- [ ] NFT support
-- [ ] Staking functionality
-- [ ] Decentralized exchange (0xio_DEX)
-- [ ] Browser extension for Firefox & Edge
+- [x] Browser Extension V1: Live on Chrome Web Store (Key Management, Encrypted Storage)
+- [x] SDK Core (v1.0): Connection, Balance Reading, & Client-side Encryption/Decryption
+- [x] Developer Portal: Documentation & Onboarding at 0xio.xyz
+- [ ] SDK v2 (Write Operations): Adding `signTransaction` and `broadcast` methods to enable dApps to trigger transfers (Public & Private) directly.
+- [ ] Mobile Beta: Native iOS & Android apps with biometric security.
+- [ ] Cross-Browser Support: Porting extension to Firefox & Edge.
+- [ ] 0xio DEX: The first encrypted AMM for the Octra network.
+- [ ] Mobile-dApp Deep Linking: Seamless mobile browser-to-wallet connections
 
 ## Contributing
 
