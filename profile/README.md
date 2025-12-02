@@ -271,7 +271,7 @@ npm run dev
 - [x] Browser Extension V1: Live on Chrome Web Store (Key Management, Encrypted Storage)
 - [x] SDK Core (v1.0): Connection, Balance Reading, & Client-side Encryption/Decryption
 - [x] Developer Portal: Documentation & Onboarding at 0xio.xyz
-- [ ]Stealth Addresses (RFC-001): Client-side disposable address layer [See RFC](https://github.com/0xio-xyz/0xio-wallet-react/issues/1)
+- [ ] Stealth Addresses (RFC-001): Client-side disposable address layer [See RFC](https://github.com/0xio-xyz/0xio-wallet-react/issues/1)
 - [ ] SDK v2 (Write Operations): Adding `signTransaction` and `broadcast` methods to enable dApps to trigger transfers (Public & Private) directly.
 - [ ] Mobile Beta: Native iOS & Android apps with biometric security.
 - [ ] Cross-Browser Support: Porting extension to Firefox & Edge.
