@@ -20,6 +20,8 @@ The new 0xio Wallet is a robust, high-performance browser extension rebuilt from
 - **Privacy First:** Native support for public and private (encrypted) transactions.
 - **Multi-Wallet:** Create and manage unlimited wallets with ease.
 - **dApp Ready:** Seamless connectivity via the `@0xgery/0xio-sdk`.
+- **Custom OU:** User now able to set custom OU on `Send Function`.
+
 
 **Install:** [Chrome Web Store](https://chromewebstore.google.com/detail/0xio-wallet/anknhjilldkeelailocijnfibefmepcc)
 
