@@ -1,34 +1,36 @@
 # 0xio
 
-A privacy-focused cryptocurrency wallet ecosystem built on the Octra blockchain network.
+A privacy-focused cryptocurrency wallet ecosystem built on the Octra Network.
 
 ## Overview
 
-0xio is a comprehensive wallet solution that enables secure management of both public and private cryptocurrency transactions on the Octra blockchain. The ecosystem includes a browser extension wallet, mobile applications, and developer tools for seamless dApp integration.
+0xio is a comprehensive wallet solution that enables secure management of both public and private cryptocurrency transactions on Octra Network. The ecosystem includes a browser extension wallet, mobile applications, and developer tools for seamless dApp integration.
 
 ## Products
 
 ### Browser Extension Wallet (0xio_wallet)
-**Status:** Live on Chrome Web Store
+**Status:** Live on Chrome Web Store (v2.0.1)
 
-The 0xio Wallet browser extension provides a secure, user-friendly interface for managing your Octra blockchain assets directly in your browser.
+The new 0xio Wallet is a robust, high-performance browser extension rebuilt from the ground up using React and Vite. It provides a secure, user-friendly interface for managing your Octra Network assets directly in your browser.
 
 **Features:**
-- Secure wallet management with encrypted storage
-- Public and private transaction support
-- Multi-wallet support
-- Token management
-- Transaction history
-- dApp connectivity via 0xio SDK
-- Network switching (mainnet/testnet)
+- **Advanced Cryptography:** Implements industry-standard BIP39 mnemonics and HD wallet derivation.
+- **Vault Architecture:** Utilizes a single encrypted vault for all account storage, protected by AES-GCM.
+- **Modern Architecture:** Built with React and Vite for faster load times and a responsive UI.
+- **Privacy First:** Native support for public and private (encrypted) transactions.
+- **Multi-Wallet:** Create and manage unlimited wallets with ease.
+- **dApp Ready:** Seamless connectivity via the `@0xgery/0xio-sdk`.
 
 **Install:** [Chrome Web Store](https://chromewebstore.google.com/detail/0xio-wallet/anknhjilldkeelailocijnfibefmepcc)
 
 **Tech Stack:**
-- Vanilla JavaScript
-- Chrome Extension Manifest V3
-- NaCl cryptography library
-- Chrome Storage API
+- **Framework:** React 18 + Vite
+- **Styling:** TailwindCSS
+- **Cryptography:** TweetNaCl (Ed25519), Web Crypto API (SHA-256, PBKDF2)
+- **State Management:** React Context + Hooks
+- **Standard:** Chrome Extension Manifest V3
+
+> **Legacy Version:** The previous Vanilla JavaScript version of the extension has been deprecated and open-sourced for educational purposes. You can find it here: [Legacy 0xio Extension](https://github.com/0xio-xyz/Legacy/tree/main/legacy-0xio-extension).
 
 ### Mobile Applications (0xio_app)
 **Status:** In Development
@@ -38,10 +40,9 @@ Native mobile wallet for iOS and Android platforms.
 **Features:**
 - Multi-wallet management
 - Public and private token transfers
-- Bulk transaction support both Public and private token transfer
+- Bulk transaction support (Public & Private)
 - Private token claiming for encrypted transfers
 - Transaction history
-- Theme customization (Light/Dark modes)
 - Secure encrypted storage
 - QR code scanning
 
@@ -50,14 +51,14 @@ Native mobile wallet for iOS and Android platforms.
 - TypeScript
 - React Navigation
 - Secure Storage (expo-secure-store)
-- Octra blockchain integration
+- Octra Network integration
 
 ### Developer SDK (0xio_SDK)
 **Status:** Published on npm
 
 Official TypeScript/JavaScript SDK for integrating 0xio Wallet with decentralized applications.
 
-**Package:** [`@0xgery/0xio-sdk`](https://www.npmjs.com/package/@0xgery/0xio-sdk)
+**Package:** `@0xgery/0xio-sdk`
 
 **Features:**
 - Seamless wallet connection
@@ -66,133 +67,142 @@ Official TypeScript/JavaScript SDK for integrating 0xio Wallet with decentralize
 - Event-driven architecture
 - Full TypeScript support
 - Framework agnostic (React, Vue, Svelte, Vanilla JS)
-- Built-in extension detection with retry logic
-- Production-ready with zero console noise
 
 **Installation:**
 ```bash
 npm install @0xgery/0xio-sdk
-```
+````
 
-**Quick Example:**
-```typescript
-import { createZeroXIOWallet } from '@0xgery/0xio-sdk';
+## Security & Cryptography
 
-const wallet = await createZeroXIOWallet({
-  appName: 'My DApp',
-  autoConnect: true
-});
+The 0xio wallet implements a rigorous security model based on standard cryptographic primitives and hierarchical deterministic (HD) wallet specifications.
 
-const balance = await wallet.getBalance();
-console.log('Balance:', balance.total, 'OCT');
-```
+### Key Generation and Derivation
+
+The wallet strictly adheres to the following standards to ensure compatibility and security:
+
+  * **Mnemonic Generation (BIP39):**
+      * Generates 128-bit entropy using the Web Crypto API.
+      * Produces a standard 12-word mnemonic phrase.
+  * **Seed Derivation:**
+      * Uses PBKDF2 with HMAC-SHA512 (2048 iterations) to derive the binary seed from the mnemonic.
+  * **Hierarchical Deterministic (HD) Path:**
+      * Follows a specific derivation path for the Octra network: `m/345'/0'/0'/0'/0'/0'/0'/0`.
+      * Indices represent: Purpose (345) / Coin / Network / Contract / Account / Token / Subnet / Index.
+  * **Signing Keys:**
+      * Uses **Ed25519** (Twisted Edwards curve) for high-speed, high-security digital signatures.
+      * Implemented via the `tweetnacl` library.
+  * **Address Generation:**
+      * Public keys are hashed using **SHA-256**.
+      * The resulting hash is encoded using **Base58** and prefixed with `oct`.
+
+### Storage Security (Vault Architecture)
+
+Sensitive data is never stored in plain text. The wallet utilizes a "Vault" architecture:
+
+  * **AES-GCM Encryption:** All private keys and mnemonics are bundled into a single JSON object and encrypted using AES-GCM (Advanced Encryption Standard in Galois/Counter Mode).
+  * **Key Wrapping:** The encryption key for the vault is derived from the user's password using PBKDF2 and a unique, randomly generated salt.
+  * **Non-Custodial:** Private keys never leave the user's device. They are encrypted at rest within the browser's local storage and only decrypted in memory when signing a transaction.
 
 ## Repositories
 
 | Repository | Description | Status |
 |------------|-------------|--------|
-| **0xio_wallet** | Browser extension wallet for Chrome | Live on [Chrome Web Store](https://chromewebstore.google.com/detail/0xio-wallet/anknhjilldkeelailocijnfibefmepcc) |
-| **0xio_app** | React Native mobile application | Development |
-| **0xio_SDK** | TypeScript SDK for dApp integration | Published on [npm](https://www.npmjs.com/package/@0xgery/0xio-sdk) |
-| **0xio_web** | Marketing website and onboarding | Live at [0xio.xyz](https://0xio.xyz) |
-| **0xio_DEX** | Decentralized exchange | Planning |
+| **0xio\_wallet** | **NEW** React-based browser extension wallet | Live (v2.0+) |
+| **0xio\_app** | React Native mobile application | Development |
+| **0xio\_SDK** | TypeScript SDK for dApp integration | Published on npm |
+| **0xio\_web** | Marketing website and onboarding | Live at 0xio.xyz |
+| **Legacy** | Archived Vanilla JS extension code | Archived |
 
 ## Architecture
 
 ```
-┌──────────────────────────┐       ┌──────────────────────────┐
-│   0xio_wallet (Chrome)   │       │    0xio_app (Mobile)     │
-│  Vanilla JS + Manifest V3│       │  React Native + TypeScript│
-│  - Wallet Management     │       │  - Multi-wallet Support  │
-│  - NaCl Cryptography     │       │  - Private Transfers     │
-│  - Secure Storage        │       │  - QR Code Scanner       │
-└───────────┬──────────────┘       └──────────┬───────────────┘
-            │                                 │
-            │ Extension API                   │ Direct Integration
-            │                                 │
-            └──────────┬──────────────────────┘
+┌──────────────────────────┐        ┌──────────────────────────┐
+│   0xio_wallet (Chrome)   │        │    0xio_app (Mobile)     │
+│  React + Vite + Tailwind │        │ React Native + TypeScript│
+│  - HD Wallet (BIP39)     │        │  - Multi-wallet Support  │
+│  - Ed25519 Signatures    │        │  - Private Transfers     │
+│  - AES-GCM Vault         │        │  - QR Code Scanner       │
+└───────────┬──────────────┘        └──────────┬───────────────┘
+            │                                  │
+            │ Extension API                    │ Direct Integration
+            │                                  │
+            └──────────┬───────────────────────┘
                        │
-            ┌──────────▼──────────────────────┐
-            │  dApps (Web Applications)       │
-            │  - React, Vue, Svelte, etc      │
-            └──────────┬──────────────────────┘
+           ┌───────────▼──────────────────────┐
+           │   dApps (Web Applications)       │
+           │  - React, Vue, Svelte, etc       │
+           └───────────┬──────────────────────┘
                        │
                        │ SDK Integration
                        │
-            ┌──────────▼──────────────────────┐
-            │       0xio_SDK (npm)            │
-            │  - TypeScript/JavaScript        │
-            │  - Wallet Connection            │
-            │  - Event Management             │
-            │  - Type Safety                  │
-            └──────────┬──────────────────────┘
+           ┌───────────▼──────────────────────┐
+           │        0xio_SDK (npm)            │
+           │  - TypeScript/JavaScript         │
+           │  - Wallet Connection             │
+           │  - Event Management              │
+           └───────────┬──────────────────────┘
                        │
                        │ RPC/API Calls
                        │
-            ┌──────────▼──────────────────────┐
-            │    Network Service Layer        │
-            │  - Transaction Broadcasting     │
-            │  - Balance Queries              │
-            │  - Private Transfer Management  │
-            │  - Block Explorer               │
-            └──────────┬──────────────────────┘
+           ┌───────────▼──────────────────────┐
+           │     Network Service Layer        │
+           │  - Transaction Broadcasting      │
+           │  - Balance Queries               │
+           │  - Private Transfer Management   │
+           └───────────┬──────────────────────┘
                        │
-                       │
-            ┌──────────▼──────────────────────┐
-            │      Octra Blockchain           │
-            │  - Consensus Layer              │
-            │  - Smart Contracts              │
-            │  - Transaction Processing       │
-            │  - Encrypted Private Transfers  │
-            └─────────────────────────────────┘
+           ┌───────────▼──────────────────────┐
+           │         Octra Network            │
+           │  - Consensus Layer               │
+           │  - Smart Contracts               │
+           │  - Encrypted Private Transfers   │
+           └──────────────────────────────────┘
 ```
 
 ## Key Features
 
 ### Privacy-First Design
-- Private token transfers using end-to-end encryption
-- Encrypted data stored on-chain with ephemeral keys
-- No transaction history leakage for private transfers
-- Balance encryption/decryption
+
+  - Private token transfers using end-to-end encryption
+  - Encrypted data stored on-chain with ephemeral keys
+  - No transaction history leakage for private transfers
+  - Balance encryption/decryption
 
 ### Multi-Wallet Support
-- Create unlimited wallets
-- Import existing wallets via private key or mnemonic
-- Switch between wallets seamlessly
-- Individual balance tracking per wallet
+
+  - Create unlimited wallets (current implementation limited at 5 wallets)
+  - Import existing wallets via private key or mnemonic
+  - Switch between wallets seamlessly
+  - Individual balance tracking per wallet
 
 ### Flexible Transaction Types
-- **Public Transfers**: Standard blockchain transactions
-- **Private Transfers**: Encrypted on-chain transfers
-- **Bulk Transfers**: Send to multiple recipients at once
-- **Claim System**: Decrypt and claim private transfers
 
-### User Experience
-- Intuitive UI/UX design
-- Theme customization (Light/Dark modes)
-- QR code support
-- Transaction history
-- Real-time balance updates
+  - **Public Transfers:** Standard blockchain transactions
+  - **Private Transfers:** Encrypted on-chain transfers
+  - **Bulk Transfers:** Send to multiple recipients at once
+  - **Claim System:** Claim private transfers
 
 ### Developer-Friendly
-- Comprehensive SDK with TypeScript support
-- Event-driven architecture
-- Multi-framework compatibility
-- Built-in error handling with retry logic
-- Development mode debugging tools
+
+  - Comprehensive SDK with TypeScript support
+  - Event-driven architecture
+  - Multi-framework compatibility
+  - Built-in error handling with retry logic
 
 ## Getting Started
 
 ### For Users
 
 **Browser Extension:**
-1. Install from [Chrome Web Store](https://chromewebstore.google.com/detail/0xio-wallet/anknhjilldkeelailocijnfibefmepcc)
-2. Create or import your wallet
-3. Start managing your Octra assets
 
-**Mobile App (Coming Soon):**
-- iOS: App Store (In Development)
-- Android: Google Play Store (In Development)
+1.  Install the latest version from [Chrome Web Store](https://chromewebstore.google.com/detail/0xio-wallet/anknhjilldkeelailocijnfibefmepcc).
+2.  Create a new wallet (generates a new BIP39 seed) or import your existing phrase.
+3.  Start managing your Octra assets with the new React-powered interface.
+
+**Mobile App:**
+
+  - *Coming Soon to iOS and Android.*
 
 ### For Developers
 
@@ -207,84 +217,40 @@ import { createZeroXIOWallet } from '@0xgery/0xio-sdk';
 
 const wallet = await createZeroXIOWallet({
   appName: 'My Awesome DApp',
-  appDescription: 'A revolutionary decentralized application',
-  requiredPermissions: ['read_balance', 'send_transactions']
+  autoConnect: true
 });
 
 await wallet.connect();
 ```
 
-**Documentation:**
-- [SDK Documentation](https://github.com/0xio-xyz/docs/tree/main/sdk)
-- [Getting Started Guide](https://github.com/0xio-xyz/docs/blob/main/sdk/getting-started.md)
-- [API Reference](https://github.com/0xio-xyz/docs/blob/main/sdk/api-reference.md)
-
-### For Contributors
-
-**Prerequisites:**
-- Node.js 16+
-- Expo CLI (for mobile app)
-- TypeScript knowledge
-
-**Setup:**
-
-```bash
-# Clone repository
-git clone https://github.com/0xio/[repository-name].git
-
-# Browser Extension
-cd 0xio_wallet
-# Load unpacked extension in Chrome from this directory
-
-# Mobile App
-cd 0xio_app
-npm install
-npm start
-
-# SDK Development
-cd 0xio_SDK
-npm install
-npm run dev
-```
-
-## Security
-
-- Mnemonic phrases stored securely using platform-native secure storage
-- Private keys never leave the device
-- Tap-to-copy with security warnings for sensitive data
-- Wallet data encrypted at rest
-- Extension communication via secure message passing
-- Rate limiting and request validation
-
 ## Technology Stack
 
 | Component | Stack |
 |-----------|-------|
-| **Browser Extension** | Vanilla JavaScript, Manifest V3, NaCl, Chrome Storage API |
+| **Browser Extension** | **React, Vite, TailwindCSS, CRXJS** |
+| **Cryptography** | **TweetNaCl (Ed25519), BIP39, PBKDF2, AES-GCM** |
 | **Mobile App** | React Native, Expo, TypeScript, AsyncStorage |
 | **SDK** | TypeScript, Rollup, Jest |
-| **Website** | HTML, CSS, JavaScript |
 | **Blockchain** | Octra Network |
 
 ## Roadmap
 
-- [x] Browser Extension V1: Live on Chrome Web Store (Key Management, Encrypted Storage)
-- [x] SDK Core (v1.0): Connection, Balance Reading, & Client-side Encryption/Decryption
-- [x] Developer Portal: Documentation & Onboarding at 0xio.xyz
-- [ ] Stealth Addresses (RFC-001): Client-side disposable address layer [See RFC](https://github.com/0xio-xyz/0xio-wallet-react/issues/1)
-- [ ] SDK v2 (Write Operations): Adding `signTransaction` and `broadcast` methods to enable dApps to trigger transfers (Public & Private) directly.
-- [ ] Mobile Beta: Native iOS & Android apps with biometric security.
-- [ ] Cross-Browser Support: Porting extension to Firefox & Edge.
-- [ ] 0xio DEX: The first encrypted AMM for the Octra network.
-- [ ] Mobile-dApp Deep Linking: Seamless mobile browser-to-wallet connections
+  - [x] **Browser Extension V2:** Complete rewrite in React for better performance and maintainability.
+  - [x] SDK Core (v2.0): Enhanced connection handling and strict typing.
+  - [ ] Stealth Addresses (RFC-001): Client-side disposable address layer.
+  - [ ] SDK v3 (Write Operations): Adding `signTransaction` and `broadcast` methods.
+  - [ ] Mobile Beta: Native iOS & Android apps with biometric security.
+  - [ ] Cross-Browser Support: Porting extension to Firefox & Edge.
+  - [ ] 0xio DEX: The first encrypted AMM for the Octra network.
 
 ## Community & Support
 
-- **Website**: [0xio.xyz](https://0xio.xyz)
-- **GitHub**: [@0xio](https://github.com/0xio)
-- **Contact**: [Telegram](https://t.me/nullXgery)
-- **Email**: team@0xio.xyz
-- **Issues**: Report bugs via GitHub Issues
+  - **Website**: [0xio.xyz](https://0xio.xyz)
+  - **X/Twitter**: [@0xio_xyz](https://x.com/0xio_xyz)
+  - **GitHub**: [@0xio-xyz](https://github.com/0xio-xyz/)
+  - **Telegram**: [@Nullxgery](https://t.me/nullXgery)
+  - **Email**: team@0xio.xyz
+  - **Issues**: Report bugs via GitHub Issues
 
 ## License
 
@@ -293,7 +259,3 @@ MIT License - see individual repository LICENSE files for details.
 ## Acknowledgments
 
 > **Disclaimer**: This is a community-built project for the Octra Network. It is not affiliated with, endorsed by, or maintained by the official Octra team.
-
----
-
-**Important Notice**: This project is under active development. Always verify transactions and use appropriate security measures. Never share your private keys or mnemonic phrases.
