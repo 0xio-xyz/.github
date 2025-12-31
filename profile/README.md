@@ -9,19 +9,18 @@ A privacy-focused cryptocurrency wallet ecosystem built on the Octra Network.
 ## Products
 
 ### Browser Extension Wallet (0xio_wallet)
-**Status:** Live on Chrome Web Store (v2.0.3)
+**Status:** Live on Chrome Web Store (v2.1.5)
 
 The new 0xio Wallet is a robust, high-performance browser extension rebuilt from the ground up using React and Vite. It provides a secure, user-friendly interface for managing your Octra Network assets directly in your browser.
 
 **Features:**
 - **Advanced Cryptography:** Implements industry-standard BIP39 mnemonics and HD wallet derivation.
-- **Vault Architecture:** Utilizes a single encrypted vault for all account storage, protected by AES-GCM.
+- **Vault Architecture:** Utilizes a single encrypted vault for all account storage, protected by AES-GCM with 900,000 PBKDF2 iterations.
 - **Modern Architecture:** Built with React and Vite for faster load times and a responsive UI.
 - **Privacy First:** Native support for public and private (encrypted) transactions.
 - **Multi-Wallet:** Create and manage unlimited wallets with ease.
 - **dApp Ready:** Seamless connectivity via the `@0xgery/0xio-sdk`.
-- **Custom OU:** User now able to set custom OU on `Send Function`.
-
+- **Supply Chain Security:** Protected against malicious npm packages using LavaMoat.
 
 **Install:** [Chrome Web Store](https://chromewebstore.google.com/detail/0xio-wallet/anknhjilldkeelailocijnfibefmepcc)
 
@@ -103,14 +102,26 @@ The wallet strictly adheres to the following standards to ensure compatibility a
 Sensitive data is never stored in plain text. The wallet utilizes a "Vault" architecture:
 
   * **AES-GCM Encryption:** All private keys and mnemonics are bundled into a single JSON object and encrypted using AES-GCM (Advanced Encryption Standard in Galois/Counter Mode).
-  * **Key Wrapping:** The encryption key for the vault is derived from the user's password using PBKDF2 and a unique, randomly generated salt.
+  * **Key Wrapping:** The encryption key for the vault is derived from the user's password using PBKDF2 (900,000 iterations) and a unique, randomly generated salt.
   * **Non-Custodial:** Private keys never leave the user's device. They are encrypted at rest within the browser's local storage and only decrypted in memory when signing a transaction.
+
+### Security Hardening (v2.1+)
+
+The wallet includes multiple layers of protection against common attack vectors:
+
+  * **Password Rate Limiting:** Progressive lockout after failed password attempts (30s, 60s, 120s, etc.) to prevent brute force attacks.
+  * **Wallet Reset Confirmation:** Users must type "DELETE MY WALLET" to confirm wallet deletion, preventing accidental data loss.
+  * **Session Key Protection:** Session keys are kept in memory only and never stored as exportable material.
+  * **DApp Connection Expiry:** Connected dApps automatically disconnect after 24 hours or when the wallet is locked.
+  * **Message Origin Verification:** All postMessage communications use strict origin checking instead of wildcards.
+  * **Request Replay Prevention:** Nonce-based verification prevents replay attacks on wallet requests.
+  * **Automatic Migration:** Seamless vault upgrades when updating from older versions, with backwards-compatible decryption.
 
 ## Repositories
 
 | Repository | Description | Status |
 |------------|-------------|--------|
-| **0xio\_wallet** | **NEW** React-based browser extension wallet | Live (v2.0+) |
+| **0xio\_wallet** | React-based browser extension wallet | Live (v2.1.5) |
 | **0xio\_app** | React Native mobile application | Development |
 | **0xio\_SDK** | TypeScript SDK for dApp integration | Published on npm |
 | **0xio\_web** | Marketing website and onboarding | Live at 0xio.xyz |
@@ -248,16 +259,31 @@ await wallet.connect();
 ## Community & Support
 
   - **Website**: [0xio.xyz](https://0xio.xyz)
-  - **X/Twitter**: [@0xio_xyz](https://x.com/0xio_xyz)
+  - **X/Twitter**: [@0xio\_xyz](https://x.com/0xio_xyz)
   - **GitHub**: [@0xio-xyz](https://github.com/0xio-xyz/)
   - **Telegram**: [@Nullxgery](https://t.me/nullXgery)
   - **Email**: team@0xio.xyz
   - **Issues**: Report bugs via GitHub Issues
 
-## License
+## License & Terms
 
-MIT License - see individual repository LICENSE files for details.
+### Current Version (v2.0+)
 
-## Acknowledgments
+**0xio Wallet (React/Vite)** is **Proprietary Software**.
+Copyright © 2025 0xio. All Rights Reserved.
+Unauthorized copying, modification, distribution, or use of this software is strictly prohibited.
 
-> **Disclaimer**: This is a community-built project for the Octra Network. It is not affiliated with, endorsed by, or maintained by the official Octra team.
+### Legacy Version (v1.0)
+
+The **Legacy 0xio Extension** (located in the `legacy/` directory) remains open-source under the **MIT License**. It is provided for educational and archival purposes only.
+
+-----
+
+## Legal & Disclaimer
+
+**0xio Wallet** is a proprietary software product developed and maintained by **0xio**.
+
+While designed exclusively for the **Octra Network**, 0xio is an independent entity and is not a subsidiary of the Octra Network Foundation. This software is provided "as is", without warranty of any kind. Users are responsible for the security of their recovery phrases and private keys.
+
+> **Future Open Source Commitment:**
+> While the current codebase is proprietary to ensure integrity during our initial launch phase, we believe in the open-source ethos of Web3. We plan to open-source the v2.0 codebase once our security audits and feature stability phases are complete.
