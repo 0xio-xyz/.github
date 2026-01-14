@@ -9,7 +9,7 @@ A privacy-focused cryptocurrency wallet ecosystem built on the Octra Network.
 ## Products
 
 ### Browser Extension Wallet (0xio wallet)
-**Status:** Live on Chrome Web Store (v2.1.9)
+**Status:** Live on Chrome Web Store (v2.1.10)
 
 The new 0xio Wallet is a robust, high-performance browser extension rebuilt from the ground up using React and Vite. It provides a secure, user-friendly interface for managing your Octra Network assets directly in your browser.
 
