@@ -19,7 +19,7 @@ The new 0xio Wallet is a robust, high-performance browser extension rebuilt from
 - **Modern Architecture:** Built with React and Vite for faster load times and a responsive UI.
 - **Privacy First:** Native support for public and private (encrypted) transactions.
 - **Multi-Wallet:** Create and manage unlimited wallets with ease.
-- **dApp Ready:** Seamless connectivity via the `@0xgery/0xio-sdk`.
+- **dApp Ready:** Seamless connectivity via the `@0xio/sdk`.
 - **Supply Chain Security:** Protected against malicious npm packages using LavaMoat.
 
 **Install:** [Chrome Web Store](https://chromewebstore.google.com/detail/0xio-wallet/anknhjilldkeelailocijnfibefmepcc)
@@ -59,7 +59,7 @@ Native mobile wallet for iOS and Android platforms.
 
 Official TypeScript/JavaScript SDK for integrating 0xio Wallet with decentralized applications.
 
-**Package:** `@0xgery/0xio-sdk`
+**Package:** `@0xio/sdk`
 
 **Features:**
 - Seamless wallet connection
@@ -71,8 +71,8 @@ Official TypeScript/JavaScript SDK for integrating 0xio Wallet with decentralize
 
 **Installation:**
 ```bash
-npm install @0xgery/0xio-sdk
-````
+npm install @0xio/sdk
+```
 
 ## Security & Cryptography
 
@@ -222,11 +222,11 @@ The wallet includes multiple layers of protection against common attack vectors:
 **Integrate 0xio Wallet into your dApp:**
 
 ```bash
-npm install @0xgery/0xio-sdk
+npm install @0xio/sdk
 ```
 
 ```typescript
-import { createZeroXIOWallet } from '@0xgery/0xio-sdk';
+import { createZeroXIOWallet } from '@0xio/sdk';
 
 const wallet = await createZeroXIOWallet({
   appName: 'My Awesome DApp',
