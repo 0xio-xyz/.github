@@ -121,7 +121,7 @@ The wallet includes multiple layers of protection against common attack vectors:
 
 | Repository | Description | Status |
 |------------|-------------|--------|
-| **0xio\_wallet** | React-based browser extension wallet | Live (v2.1.4) |
+| **0xio\_wallet** | React-based browser extension wallet | Live (v2.1.10) |
 | **0xio\_app** | React Native mobile application | Development |
 | **0xio\_SDK** | TypeScript SDK for dApp integration | Published on npm |
 | **0xio\_web** | Marketing website and onboarding | Live at 0xio.xyz |
