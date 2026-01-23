@@ -262,6 +262,7 @@ await wallet.connect();
   - **X/Twitter**: [@0xio\_xyz](https://x.com/0xio_xyz)
   - **GitHub**: [@0xio-xyz](https://github.com/0xio-xyz/)
   - **Telegram**: [@Nullxgery](https://t.me/nullXgery)
+  - **Documentation**: [docs.0xio.xyz](https://docs.0xio.xyz)
   - **Email**: team@0xio.xyz
   - **Issues**: Report bugs via GitHub Issues
 
@@ -270,7 +271,7 @@ await wallet.connect();
 ### Current Version (v2.0+)
 
 **0xio Wallet (React/Vite)** is **Proprietary Software**.
-Copyright © 2025 0xio. All Rights Reserved.
+Copyright © 2026 0xio. All Rights Reserved.
 Unauthorized copying, modification, distribution, or use of this software is strictly prohibited.
 
 ### Legacy Version (v1.0)
