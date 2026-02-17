@@ -9,7 +9,7 @@ A privacy-focused cryptocurrency wallet ecosystem built on the Octra Network.
 ## Products
 
 ### Browser Extension Wallet (0xio wallet)
-**Status:** Live on Chrome Web Store (v2.1.14)
+**Status:** Live on Chrome Web Store (v2.1.15)
 
 The new 0xio Wallet is a robust, high-performance browser extension rebuilt from the ground up using React and Vite. It provides a secure, user-friendly interface for managing your Octra Network assets directly in your browser.
 
@@ -74,6 +74,27 @@ Official TypeScript/JavaScript SDK for integrating 0xio Wallet with decentralize
 npm install @0xio/sdk
 ```
 
+### 0xio DEX
+**Status:** In Development
+
+Privacy-preserving decentralized exchange for trading encrypted assets on the Octra Network.
+
+**URL:** [dex.0xio.xyz](https://dex.0xio.xyz)
+
+### Atlas
+**Status:** Live (Beta)
+
+High-performance blockchain visualization and analytics platform for the Octra Network.
+
+**URL:** [atlas.0xio.xyz](https://atlas.0xio.xyz)
+
+### Telegram Bot
+**Status:** Live
+
+Real-time wallet monitoring and notifications via Telegram.
+
+**Bot:** [@NullXio_bot](https://t.me/NullXio_bot)
+
 ## Security & Cryptography
 
 The 0xio wallet implements a rigorous security model based on standard cryptographic primitives and hierarchical deterministic (HD) wallet specifications.
@@ -121,10 +142,11 @@ The wallet includes multiple layers of protection against common attack vectors:
 
 | Repository | Description | Status |
 |------------|-------------|--------|
-| **0xio\_wallet** | React-based browser extension wallet | Live (v2.1.14) |
+| **0xio\_wallet** | React-based browser extension wallet | Live (v2.1.15) |
 | **0xio\_app** | React Native mobile application | Development |
 | **0xio\_SDK** | TypeScript SDK for dApp integration | Published on npm |
 | **0xio\_web** | Marketing website and onboarding | Live at 0xio.xyz |
+| **documentation** | Mintlify-powered docs site | Live at docs.0xio.xyz |
 | **Legacy** | Archived Vanilla JS extension code | Archived |
 
 ## Architecture
@@ -156,7 +178,7 @@ The wallet includes multiple layers of protection against common attack vectors:
            │  - Event Management              │
            └───────────┬──────────────────────┘
                        │
-                       │ RPC/API Calls
+                       │ JSON-RPC 2.0
                        │
            ┌───────────▼──────────────────────┐
            │     Network Service Layer        │
@@ -249,12 +271,14 @@ await wallet.connect();
 ## Roadmap
 
   - [x] **Browser Extension V2:** Complete rewrite in React for better performance and maintainability.
-  - [x] SDK Core (v2.0): Enhanced connection handling and strict typing.
+  - [x] **SDK Core (v2.0):** Enhanced connection handling and strict typing.
+  - [x] **SDK v2.1:** Transaction finality, RPC error types, message signing, public key exposure.
+  - [x] **Atlas (Beta):** Blockchain visualization and analytics platform.
+  - [x] **Telegram Bot:** Real-time wallet monitoring via [@NullXio_bot](https://t.me/NullXio_bot).
+  - [x] **JSON-RPC Migration:** Network layer migrated from REST to JSON-RPC 2.0.
   - [ ] Stealth Addresses (RFC-001): Client-side disposable address layer.
-  - [ ] SDK v3 (Write Operations): Adding `signTransaction` and `broadcast` methods.
   - [ ] Mobile Beta: Native iOS & Android apps with biometric security.
-  - [ ] Cross-Browser Support: Porting extension to Firefox & Edge.
-  - [ ] 0xio DEX: The first encrypted AMM for the Octra network.
+  - [ ] 0xio DEX: Privacy-preserving decentralized exchange.
 
 ## Community & Support
 
@@ -271,7 +295,7 @@ await wallet.connect();
 ### Current Version (v2.0+)
 
 **0xio Wallet (React/Vite)** is **Proprietary Software**.
-Copyright © 2026 0xio. All Rights Reserved.
+Copyright © 2026 0xio Labs. All Rights Reserved.
 Unauthorized copying, modification, distribution, or use of this software is strictly prohibited.
 
 ### Legacy Version (v1.0)
@@ -282,9 +306,9 @@ The **Legacy 0xio Extension** (located in the `legacy/` directory) remains open-
 
 ## Legal & Disclaimer
 
-**0xio Wallet** is a proprietary software product developed and maintained by **0xio**.
+**0xio Wallet** is a proprietary software product developed and maintained by **0xio Labs**.
 
-While designed exclusively for the **Octra Network**, 0xio is an independent entity and is not a subsidiary of the Octra Network Foundation. This software is provided "as is", without warranty of any kind. Users are responsible for the security of their recovery phrases and private keys.
+While designed exclusively for the **Octra Network**, 0xio Labs is an independent entity and is not affiliated with Octra Labs. This software is provided "as is", without warranty of any kind. Users are responsible for the security of their recovery phrases and private keys.
 
 > **Future Open Source Commitment:**
 > While the current codebase is proprietary to ensure integrity during our initial launch phase, we believe in the open-source ethos of Web3. We plan to open-source the v2.0 codebase once our security audits and feature stability phases are complete.
