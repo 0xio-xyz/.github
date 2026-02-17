@@ -18,7 +18,7 @@ The new 0xio Wallet is a robust, high-performance browser extension rebuilt from
 - **Vault Architecture:** Utilizes a single encrypted vault for all account storage, protected by AES-GCM with 900,000 PBKDF2 iterations.
 - **Modern Architecture:** Built with React and Vite for faster load times and a responsive UI.
 - **Privacy First:** Native support for public and private (encrypted) transactions.
-- **Multi-Wallet:** Create and manage unlimited wallets with ease.
+- **Multi-Wallet:** Create and manage up to 20 wallets per installation.
 - **dApp Ready:** Seamless connectivity via the `@0xio/sdk`.
 - **Supply Chain Security:** Protected against malicious npm packages using LavaMoat.
 
@@ -39,20 +39,34 @@ The new 0xio Wallet is a robust, high-performance browser extension rebuilt from
 Native mobile wallet for iOS and Android platforms.
 
 **Features:**
-- Multi-wallet management
+- Multi-wallet management (create, import, watch-only)
 - Public and private token transfers
 - Bulk transaction support (Public & Private)
 - Private token claiming for encrypted transfers
-- Transaction history
-- Secure encrypted storage
-- QR code scanning
+- Transaction history with pending tracking
+- Secure encrypted storage (TweetNaCl + AsyncStorage)
+- QR code generation and sharing
+- Biometric authentication (Face ID / Touch ID)
+- PIN lock with auto-lock timeout
+- Internationalization (English, Bahasa Indonesia, Chinese, Japanese, Korean)
+- DApp browser with wallet provider injection
+- Address book for saved contacts
+- Dark and light theme support
+- Gesture-based navigation (edge swipe for wallet switching)
+- In-app token swap (coming soon)
+- Hide balances toggle for privacy
+- Sentry error tracking and monitoring
 
 **Tech Stack:**
-- React Native + Expo
-- TypeScript
-- React Navigation
-- Secure Storage (expo-secure-store)
-- Octra Network integration
+- React Native 0.81 + Expo SDK 54 (New Architecture enabled)
+- TypeScript (strict mode)
+- React Navigation (Stack)
+- TanStack React Query for data fetching
+- React Native Gesture Handler + Reanimated
+- expo-secure-store, expo-local-authentication, expo-haptics
+- i18next for internationalization
+- Sentry for error monitoring
+- Lucide icons
 
 ### Developer SDK (0xio_SDK)
 **Status:** Published on npm
@@ -62,12 +76,18 @@ Official TypeScript/JavaScript SDK for integrating 0xio Wallet with decentralize
 **Package:** `@0xio/sdk`
 
 **Features:**
-- Seamless wallet connection
+- Seamless wallet connection and auto-reconnection
 - Transaction management (public & private)
-- Balance queries
-- Event-driven architecture
-- Full TypeScript support
+- Balance queries (public + encrypted private)
+- Message signing (Ed25519)
+- Transaction finality tracking (`pending`, `confirmed`, `rejected`)
+- Balance encryption/decryption and private transfer claiming
+- Event-driven architecture (connect, disconnect, balanceChanged, accountChanged, etc.)
+- Rate limiting (50 concurrent / 20 per second) and retry with exponential backoff
+- 20 RPC error codes with human-readable messages
+- Full TypeScript support with strict readonly interfaces
 - Framework agnostic (React, Vue, Svelte, Vanilla JS)
+- Cryptographically secure request IDs (Web Crypto API)
 
 **Installation:**
 ```bash
@@ -154,10 +174,10 @@ The wallet includes multiple layers of protection against common attack vectors:
 ```
 ┌──────────────────────────┐        ┌──────────────────────────┐
 │   0xio_wallet (Chrome)   │        │    0xio_app (Mobile)     │
-│  React + Vite + Tailwind │        │ React Native + TypeScript│
-│  - HD Wallet (BIP39)     │        │  - Multi-wallet Support  │
-│  - Ed25519 Signatures    │        │  - Private Transfers     │
-│  - AES-GCM Vault         │        │  - QR Code Scanner       │
+│  React + Vite + Tailwind │        │ React Native + Expo      │
+│  - HD Wallet (BIP39)     │        │  - Biometric Auth        │
+│  - Ed25519 Signatures    │        │  - DApp Browser          │
+│  - AES-GCM Vault         │        │  - i18n (5 Languages)    │
 └───────────┬──────────────┘        └──────────┬───────────────┘
             │                                  │
             │ Extension API                    │ Direct Integration
@@ -206,8 +226,9 @@ The wallet includes multiple layers of protection against common attack vectors:
 
 ### Multi-Wallet Support
 
-  - Create unlimited wallets (current implementation limited at 5 wallets)
+  - Create up to 20 wallets per installation
   - Import existing wallets via private key or mnemonic
+  - Watch-only wallet mode (view balance without private key)
   - Switch between wallets seamlessly
   - Individual balance tracking per wallet
 
@@ -215,15 +236,16 @@ The wallet includes multiple layers of protection against common attack vectors:
 
   - **Public Transfers:** Standard blockchain transactions
   - **Private Transfers:** Encrypted on-chain transfers
-  - **Bulk Transfers:** Send to multiple recipients at once
+  - **Bulk Transfers:** Send to up to 5 recipients at once
   - **Claim System:** Claim private transfers
 
 ### Developer-Friendly
 
-  - Comprehensive SDK with TypeScript support
-  - Event-driven architecture
-  - Multi-framework compatibility
-  - Built-in error handling with retry logic
+  - Comprehensive SDK (`@0xio/sdk`) with full TypeScript support
+  - Event-driven architecture with typed events
+  - Multi-framework compatibility (React, Vue, Svelte, Vanilla JS)
+  - Built-in error handling with retry logic and rate limiting
+  - Message signing for dApp authentication
 
 ## Getting Started
 
@@ -264,8 +286,8 @@ await wallet.connect();
 |-----------|-------|
 | **Browser Extension** | **React, Vite, TailwindCSS, CRXJS** |
 | **Cryptography** | **TweetNaCl (Ed25519), BIP39, PBKDF2, AES-GCM** |
-| **Mobile App** | React Native, Expo, TypeScript, AsyncStorage |
-| **SDK** | TypeScript, Rollup, Jest |
+| **Mobile App** | React Native 0.81, Expo SDK 54, TypeScript, TanStack Query, Reanimated |
+| **SDK** | TypeScript, Rollup |
 | **Blockchain** | Octra Network |
 
 ## Roadmap
