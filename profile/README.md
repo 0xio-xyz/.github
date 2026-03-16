@@ -1,72 +1,85 @@
 # 0xio
 
-A privacy-focused cryptocurrency wallet ecosystem built on the Octra Network.
+Privacy-first wallet ecosystem for the Octra Network, built by **0xio Labs**.
 
 ## Overview
 
-0xio is a comprehensive wallet solution that enables secure management of both public and private cryptocurrency transactions on Octra Network. The ecosystem includes a browser extension wallet, mobile applications, and developer tools for seamless dApp integration.
+0xio is a comprehensive wallet solution for managing public and private cryptocurrency transactions on Octra Network. The ecosystem spans a browser extension, native mobile apps (iOS & Android), a desktop application, and developer tools — all unified by a custom privacy cryptography stack built on fully homomorphic encryption (FHE).
 
 ## Products
 
-### Browser Extension Wallet (0xio wallet)
-**Status:** Live on Chrome Web Store (v2.1.15)
+### Browser Extension (0xio wallet)
+**Status:** Live on Chrome Web Store
 
-The new 0xio Wallet is a robust, high-performance browser extension rebuilt from the ground up using React and Vite. It provides a secure, user-friendly interface for managing your Octra Network assets directly in your browser.
+The 0xio Wallet is a high-performance browser extension built with React and Vite. It serves as the primary interface for managing Octra Network assets, with native FHE privacy operations powered by pvac-rs compiled to WebAssembly.
 
 **Features:**
-- **Advanced Cryptography:** Implements industry-standard BIP39 mnemonics and HD wallet derivation.
-- **Vault Architecture:** Utilizes a single encrypted vault for all account storage, protected by AES-GCM with 900,000 PBKDF2 iterations.
-- **Modern Architecture:** Built with React and Vite for faster load times and a responsive UI.
-- **Privacy First:** Native support for public and private (encrypted) transactions.
-- **Multi-Wallet:** Create and manage up to 20 wallets per installation.
-- **dApp Ready:** Seamless connectivity via the `@0xio/sdk`.
-- **Supply Chain Security:** Protected against malicious npm packages using LavaMoat.
+- **Privacy Cryptography (PVAC):** FHE encrypt/decrypt, range proofs, stealth transfers — all in-browser via WASM
+- **Vault Architecture:** Single encrypted vault protected by AES-GCM with 900,000 PBKDF2 iterations
+- **Multi-Wallet:** Create and manage up to 20 wallets per installation
+- **dApp Ready:** Seamless connectivity via the `@0xio/sdk`
+- **FHE Tools:** Standalone encrypt/decrypt UI + automatic FHE parameter expansion in contract calls
+- **Supply Chain Security:** Protected against malicious npm packages using LavaMoat
 
 **Install:** [Chrome Web Store](https://chromewebstore.google.com/detail/0xio-wallet/anknhjilldkeelailocijnfibefmepcc)
 
 **Tech Stack:**
 - **Framework:** React 18 + Vite
 - **Styling:** TailwindCSS
-- **Cryptography:** TweetNaCl (Ed25519), Web Crypto API (SHA-256, PBKDF2)
+- **Cryptography:** pvac-rs (WASM + rayon multithreading), TweetNaCl (Ed25519), Web Crypto API
 - **State Management:** React Context + Hooks
 - **Standard:** Chrome Extension Manifest V3
 
-> **Legacy Version:** The previous Vanilla JavaScript version of the extension has been deprecated and open-sourced for educational purposes. You can find it here: [Legacy 0xio Extension](https://github.com/0xio-xyz/Legacy/tree/main/legacy-0xio-extension).
-
-### Mobile Applications (0xio_app)
+### Desktop Application (0xio Desktop)
 **Status:** In Development
 
-Native mobile wallet for iOS and Android platforms.
+Native desktop wallet powered by Tauri 2 and Rust. Offloads heavy cryptographic operations (range proofs, FHE encrypt/decrypt) to native Rust via a local WebSocket bridge, achieving the fastest privacy operation performance across all platforms.
+
+**Features:**
+- **Native Rust Crypto:** pvac-rs runs natively — no WASM overhead, full CPU utilization
+- **WebSocket Bridge:** Local relay at `127.0.0.1:19345` connects the React UI to the Rust backend
+- **FHE Tools:** Encrypt/decrypt UI + contract call FHE integration (same as extension)
+- **Contract Interaction:** Deploy, call, and call-view smart contracts with FHE parameter support
+- **Full Wallet Management:** Create, import, send, receive, claim — feature parity with extension
+
+**Tech Stack:**
+- **Framework:** Tauri 2 (Rust backend + React frontend)
+- **Cryptography:** pvac-rs (native), curve25519-dalek, @noble/hashes
+- **Frontend:** React + TypeScript + TailwindCSS
+- **Bridge:** WebSocket (pvac-handler crate)
+
+### Mobile Applications (0xio_app)
+**Status:** In Development (Beta)
+
+Native mobile wallet for iOS and Android with privacy operations powered by pvac-rs compiled to platform-native libraries (iOS static lib, Android shared lib via JNI/FFI).
 
 **Features:**
 - Multi-wallet management (create, import, watch-only)
-- Public and private token transfers
-- Bulk transaction support (Public & Private)
-- Private token claiming for encrypted transfers
-- Transaction history with pending tracking
-- Secure encrypted storage (TweetNaCl + AsyncStorage)
-- QR code generation and sharing
-- Biometric authentication (Face ID / Touch ID)
-- PIN lock with auto-lock timeout
-- Internationalization (English, Bahasa Indonesia, Chinese, Japanese, Korean)
+- Public and private token transfers with FHE encryption
+- Bulk transaction support (public & private, up to 5 recipients)
+- Stealth transfer claiming with automatic scan
+- Custom token import by contract address (swipe-to-delete)
+- Biometric authentication (Face ID / Touch ID / Fingerprint)
+- PIN lock with rate limiting and auto-lock timeout
 - DApp browser with wallet provider injection
+- Transaction history with pending tracking
 - Address book for saved contacts
-- Dark and light theme support
-- Gesture-based navigation (edge swipe for wallet switching)
-- In-app token swap (coming soon)
-- Hide balances toggle for privacy
-- Sentry error tracking and monitoring
+- QR code generation and sharing
+- Internationalization (English, Bahasa Indonesia, Chinese, Japanese, Korean)
+- Dark theme
+- Hide balances toggle
 
 **Tech Stack:**
 - React Native 0.81 + Expo SDK 54 (New Architecture enabled)
-- TypeScript (strict mode)
-- React Navigation (Stack)
+- TypeScript 5.9 (strict mode)
+- pvac-rs via native FFI (iOS: static lib, Android: shared lib)
 - TanStack React Query for data fetching
+- React Navigation (Stack)
 - React Native Gesture Handler + Reanimated
+- @noble/hashes (PBKDF2, SHA-256), TweetNaCl (Ed25519)
 - expo-secure-store, expo-local-authentication, expo-haptics
 - i18next for internationalization
 - Sentry for error monitoring
-- Lucide icons
 
 ### Developer SDK (0xio_SDK)
 **Status:** Published on npm
@@ -82,12 +95,10 @@ Official TypeScript/JavaScript SDK for integrating 0xio Wallet with decentralize
 - Message signing (Ed25519)
 - Transaction finality tracking (`pending`, `confirmed`, `rejected`)
 - Balance encryption/decryption and private transfer claiming
-- Event-driven architecture (connect, disconnect, balanceChanged, accountChanged, etc.)
-- Rate limiting (50 concurrent / 20 per second) and retry with exponential backoff
-- 20 RPC error codes with human-readable messages
+- Event-driven architecture with typed events
+- Rate limiting and retry with exponential backoff
 - Full TypeScript support with strict readonly interfaces
 - Framework agnostic (React, Vue, Svelte, Vanilla JS)
-- Cryptographically secure request IDs (Web Crypto API)
 
 **Installation:**
 ```bash
@@ -97,14 +108,14 @@ npm install @0xio/sdk
 ### 0xio DEX
 **Status:** In Development
 
-Privacy-preserving decentralized exchange for trading encrypted assets on the Octra Network.
+Privacy-preserving decentralized exchange with concentrated liquidity (CLMM) for trading encrypted assets on the Octra Network.
 
 **URL:** [dex.0xio.xyz](https://dex.0xio.xyz)
 
 ### Atlas
 **Status:** Live (Beta)
 
-High-performance blockchain visualization and analytics platform for the Octra Network.
+Blockchain visualization and analytics platform for the Octra Network.
 
 **URL:** [atlas.0xio.xyz](https://atlas.0xio.xyz)
 
@@ -117,149 +128,132 @@ Real-time wallet monitoring and notifications via Telegram.
 
 ## Security & Cryptography
 
-The 0xio wallet implements a rigorous security model based on standard cryptographic primitives and hierarchical deterministic (HD) wallet specifications.
+0xio implements a multi-layered cryptographic architecture combining standard key management with a custom privacy system built on fully homomorphic encryption.
 
 ### Key Generation and Derivation
 
-The wallet strictly adheres to the following standards to ensure compatibility and security:
+- **Mnemonic Generation (BIP39):** 128-bit entropy via Web Crypto API produces a standard 12-word mnemonic phrase.
+- **Seed Derivation:** PBKDF2 with HMAC-SHA512 (2048 iterations) derives the binary seed from the mnemonic.
+- **Master Root Key:** `HMAC-SHA512("Octra seed", seed)[0:32]` — deterministic master key derivation used across all platforms.
+- **Signing Keys:** Ed25519 (Twisted Edwards curve) via TweetNaCl for high-speed digital signatures.
+- **Address Generation:** Public key → SHA-256 hash → Base58 encoding → `oct` prefix.
 
-  * **Mnemonic Generation (BIP39):**
-      * Generates 128-bit entropy using the Web Crypto API.
-      * Produces a standard 12-word mnemonic phrase.
-  * **Seed Derivation:**
-      * Uses PBKDF2 with HMAC-SHA512 (2048 iterations) to derive the binary seed from the mnemonic.
-  * **Hierarchical Deterministic (HD) Path:**
-      * Follows a specific derivation path for the Octra network: `m/345'/0'/0'/0'/0'/0'/0'/0`.
-      * Indices represent: Purpose (345) / Coin / Network / Contract / Account / Token / Subnet / Index.
-  * **Signing Keys:**
-      * Uses **Ed25519** (Twisted Edwards curve) for high-speed, high-security digital signatures.
-      * Implemented via the `tweetnacl` library.
-  * **Address Generation:**
-      * Public keys are hashed using **SHA-256**.
-      * The resulting hash is encoded using **Base58** and prefixed with `oct`.
+### Privacy Cryptography (PVAC)
 
-### Storage Security (Vault Architecture)
+PVAC (Privacy Via Additive Ciphers) is 0xio's custom privacy system built on fully homomorphic encryption, enabling encrypted on-chain balances and private transfers.
 
-Sensitive data is never stored in plain text. The wallet utilizes a "Vault" architecture:
+**Core Primitives:**
+- **FHE Encrypt/Decrypt:** Additively homomorphic encryption of token amounts — encrypted values can be added on-chain without decryption
+- **Range Proofs:** Zero-knowledge proofs (64-bit) proving an encrypted amount is non-negative and within bounds, without revealing the value
+- **Pedersen Commitments:** Binding commitments to amounts using elliptic curve points, used for transaction integrity
+- **Stealth Transfers:** ECDH key agreement generates one-time stealth addresses — recipient scans for incoming transfers using stealth tag matching
+- **Zero Proofs:** Proof that a ciphertext encrypts zero, used during decrypt (withdrawal) operations
 
-  * **AES-GCM Encryption:** All private keys and mnemonics are bundled into a single JSON object and encrypted using AES-GCM (Advanced Encryption Standard in Galois/Counter Mode).
-  * **Key Wrapping:** The encryption key for the vault is derived from the user's password using PBKDF2 (900,000 iterations) and a unique, randomly generated salt.
-  * **Non-Custodial:** Private keys never leave the user's device. They are encrypted at rest within the browser's local storage and only decrypted in memory when signing a transaction.
+**Cryptographic Libraries:**
+- **pvac-rs** — Custom Rust library implementing all PVAC operations
+  - `curve25519-dalek` for elliptic curve arithmetic
+  - Multithreaded range proof generation (work-stealing across CPU cores)
+  - Compiles to: WASM (extension), iOS static lib, Android shared lib, native binary (desktop)
+- **@noble/hashes** — PBKDF2, SHA-256, HMAC for key derivation
+- **TweetNaCl** — Ed25519 signing and key pair generation
 
-### Security Hardening (v2.1+)
+### Storage Security
 
-The wallet includes multiple layers of protection against common attack vectors:
+- **Extension:** AES-GCM encrypted vault, key derived from password via PBKDF2 (900,000 iterations) with unique random salt. Keys never leave the device.
+- **Mobile:** expo-secure-store for sensitive data, PBKDF2-hardened PIN verification, biometric gating, progressive rate limiting on failed attempts.
+- **Desktop:** Same vault architecture as extension, with native Rust crypto backend.
 
-  * **Password Rate Limiting:** Progressive lockout after failed password attempts (30s, 60s, 120s, etc.) to prevent brute force attacks.
-  * **Wallet Reset Confirmation:** Users must type "DELETE MY WALLET" to confirm wallet deletion, preventing accidental data loss.
-  * **Session Key Protection:** Session keys are kept in memory only and never stored as exportable material.
-  * **DApp Connection Expiry:** Connected dApps automatically disconnect after 24 hours or when the wallet is locked.
-  * **Message Origin Verification:** All postMessage communications use strict origin checking instead of wildcards.
-  * **Request Replay Prevention:** Nonce-based verification prevents replay attacks on wallet requests.
-  * **Automatic Migration:** Seamless vault upgrades when updating from older versions, with backwards-compatible decryption.
+## Architecture
+
+```
+┌──────────────────────────────┐     ┌──────────────────────────────┐
+│    0xio_wallet (Chrome)      │     │     0xio Desktop (Tauri)     │
+│  React + Vite + TailwindCSS  │     │  React + Rust + TailwindCSS  │
+│  pvac-rs (WASM + rayon)      │     │  pvac-rs (native binary)     │
+│  Ed25519 + AES-GCM Vault     │     │  WebSocket bridge :19345     │
+└──────────────┬───────────────┘     └──────────────┬───────────────┘
+               │                                    │
+               │ Extension API              Tauri IPC + WS
+               │                                    │
+┌──────────────┴────────────────────────────────────┴───────────────┐
+│                     dApps (Web Applications)                      │
+│                   React, Vue, Svelte, Vanilla JS                  │
+│                        @0xio/sdk (npm)                            │
+└───────────────────────────────┬──────────────────────────────────┘
+                                │
+                          JSON-RPC 2.0
+                                │
+┌───────────────────────────────┴──────────────────────────────────┐
+│                      Network Service Layer                       │
+│           Transaction Broadcasting · Balance Queries              │
+│     Private Transfer Management · Contract Call (REST + RPC)     │
+└───────────────────────────────┬──────────────────────────────────┘
+                                │
+┌───────────────────────────────┴──────────────────────────────────┐
+│                         Octra Network                            │
+│   Consensus · Smart Contracts (AML) · FHE Encrypted Balances     │
+└──────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────┐
+│     0xio_app (Mobile)        │
+│  React Native + Expo 54      │
+│  pvac-rs (native FFI)        │         Connects directly to
+│  Biometric · DApp Browser    │ ──────► Network Service Layer
+│  i18n (5 languages)          │
+└──────────────────────────────┘
+```
 
 ## Repositories
 
 | Repository | Description | Status |
 |------------|-------------|--------|
-| **0xio\_wallet** | React-based browser extension wallet | Live (v2.1.15) |
-| **0xio\_app** | React Native mobile application | Development |
-| **0xio\_SDK** | TypeScript SDK for dApp integration | Published on npm |
-| **0xio\_web** | Marketing website and onboarding | Live at 0xio.xyz |
+| **0xio_wallet** | React-based browser extension wallet | Live |
+| **0xio-desktop** | Tauri + Rust desktop application | Development |
+| **0xio_app** | React Native mobile application (iOS & Android) | Development (Beta) |
+| **0xio_SDK** | TypeScript SDK for dApp integration | Published on npm |
+| **0xio_web** | Marketing website and onboarding | Live at 0xio.xyz |
 | **documentation** | Mintlify-powered docs site | Live at docs.0xio.xyz |
 | **Legacy** | Archived Vanilla JS extension code | Archived |
 
-## Architecture
+## Technology Stack
 
-```
-┌──────────────────────────┐        ┌──────────────────────────┐
-│   0xio_wallet (Chrome)   │        │    0xio_app (Mobile)     │
-│  React + Vite + Tailwind │        │ React Native + Expo      │
-│  - HD Wallet (BIP39)     │        │  - Biometric Auth        │
-│  - Ed25519 Signatures    │        │  - DApp Browser          │
-│  - AES-GCM Vault         │        │  - i18n (5 Languages)    │
-└───────────┬──────────────┘        └──────────┬───────────────┘
-            │                                  │
-            │ Extension API                    │ Direct Integration
-            │                                  │
-            └──────────┬───────────────────────┘
-                       │
-           ┌───────────▼──────────────────────┐
-           │   dApps (Web Applications)       │
-           │  - React, Vue, Svelte, etc       │
-           └───────────┬──────────────────────┘
-                       │
-                       │ SDK Integration
-                       │
-           ┌───────────▼──────────────────────┐
-           │        0xio_SDK (npm)            │
-           │  - TypeScript/JavaScript         │
-           │  - Wallet Connection             │
-           │  - Event Management              │
-           └───────────┬──────────────────────┘
-                       │
-                       │ JSON-RPC 2.0
-                       │
-           ┌───────────▼──────────────────────┐
-           │     Network Service Layer        │
-           │  - Transaction Broadcasting      │
-           │  - Balance Queries               │
-           │  - Private Transfer Management   │
-           └───────────┬──────────────────────┘
-                       │
-           ┌───────────▼──────────────────────┐
-           │         Octra Network            │
-           │  - Consensus Layer               │
-           │  - Smart Contracts               │
-           │  - Encrypted Private Transfers   │
-           └──────────────────────────────────┘
-```
+| Component | Stack |
+|-----------|-------|
+| **Browser Extension** | React 18, Vite, TailwindCSS, CRXJS, pvac-rs (WASM) |
+| **Desktop App** | Tauri 2, Rust, React, TypeScript, TailwindCSS, pvac-rs (native) |
+| **Mobile App** | React Native 0.81, Expo 54, TypeScript 5.9, TanStack Query, pvac-rs (FFI) |
+| **Cryptography** | pvac-rs (curve25519-dalek), @noble/hashes, TweetNaCl (Ed25519), AES-GCM, PBKDF2 |
+| **SDK** | TypeScript, Rollup |
+| **Smart Contracts** | AML (AppliedML) — Octra's contract language |
+| **Blockchain** | Octra Network |
 
-## Key Features
+## Roadmap
 
-### Privacy-First Design
-
-  - Private token transfers using end-to-end encryption
-  - Encrypted data stored on-chain with ephemeral keys
-  - No transaction history leakage for private transfers
-  - Balance encryption/decryption
-
-### Multi-Wallet Support
-
-  - Create up to 20 wallets per installation
-  - Import existing wallets via private key or mnemonic
-  - Watch-only wallet mode (view balance without private key)
-  - Switch between wallets seamlessly
-  - Individual balance tracking per wallet
-
-### Flexible Transaction Types
-
-  - **Public Transfers:** Standard blockchain transactions
-  - **Private Transfers:** Encrypted on-chain transfers
-  - **Bulk Transfers:** Send to up to 5 recipients at once
-  - **Claim System:** Claim private transfers
-
-### Developer-Friendly
-
-  - Comprehensive SDK (`@0xio/sdk`) with full TypeScript support
-  - Event-driven architecture with typed events
-  - Multi-framework compatibility (React, Vue, Svelte, Vanilla JS)
-  - Built-in error handling with retry logic and rate limiting
-  - Message signing for dApp authentication
+- [x] **Browser Extension V2:** Complete rewrite in React with PVAC integration.
+- [x] **SDK v2.1:** Transaction finality, RPC error types, message signing.
+- [x] **Atlas (Beta):** Blockchain visualization and analytics.
+- [x] **Telegram Bot:** Real-time wallet monitoring via [@NullXio_bot](https://t.me/NullXio_bot).
+- [x] **JSON-RPC Migration:** Network layer migrated from REST to JSON-RPC 2.0.
+- [x] **FHE Tools:** Standalone encrypt/decrypt + contract call FHE integration across all platforms.
+- [x] **Desktop App:** Tauri + Rust desktop wallet with native crypto backend.
+- [ ] Mobile Public Beta: Native iOS & Android apps with biometric security.
+- [ ] 0xio DEX: Privacy-preserving concentrated liquidity exchange.
+- [ ] Open Source: Planned open-source release after security audits.
 
 ## Getting Started
 
 ### For Users
 
 **Browser Extension:**
+1. Install from the [Chrome Web Store](https://chromewebstore.google.com/detail/0xio-wallet/anknhjilldkeelailocijnfibefmepcc).
+2. Create a new wallet or import your existing 12-word mnemonic.
+3. Start managing your Octra assets.
 
-1.  Install the latest version from [Chrome Web Store](https://chromewebstore.google.com/detail/0xio-wallet/anknhjilldkeelailocijnfibefmepcc).
-2.  Create a new wallet (generates a new BIP39 seed) or import your existing phrase.
-3.  Start managing your Octra assets with the new React-powered interface.
+**Desktop App:**
+- *Coming soon.*
 
 **Mobile App:**
-
-  - *Coming Soon to iOS and Android.*
+- *Coming soon to iOS and Android.*
 
 ### For Developers
 
@@ -273,64 +267,34 @@ npm install @0xio/sdk
 import { createZeroXIOWallet } from '@0xio/sdk';
 
 const wallet = await createZeroXIOWallet({
-  appName: 'My Awesome DApp',
+  appName: 'My DApp',
   autoConnect: true
 });
 
 await wallet.connect();
 ```
 
-## Technology Stack
-
-| Component | Stack |
-|-----------|-------|
-| **Browser Extension** | **React, Vite, TailwindCSS, CRXJS** |
-| **Cryptography** | **TweetNaCl (Ed25519), BIP39, PBKDF2, AES-GCM** |
-| **Mobile App** | React Native 0.81, Expo SDK 54, TypeScript, TanStack Query, Reanimated |
-| **SDK** | TypeScript, Rollup |
-| **Blockchain** | Octra Network |
-
-## Roadmap
-
-  - [x] **Browser Extension V2:** Complete rewrite in React for better performance and maintainability.
-  - [x] **SDK Core (v2.0):** Enhanced connection handling and strict typing.
-  - [x] **SDK v2.1:** Transaction finality, RPC error types, message signing, public key exposure.
-  - [x] **Atlas (Beta):** Blockchain visualization and analytics platform.
-  - [x] **Telegram Bot:** Real-time wallet monitoring via [@NullXio_bot](https://t.me/NullXio_bot).
-  - [x] **JSON-RPC Migration:** Network layer migrated from REST to JSON-RPC 2.0.
-  - [ ] Stealth Addresses (RFC-001): Client-side disposable address layer.
-  - [ ] Mobile Beta: Native iOS & Android apps with biometric security.
-  - [ ] 0xio DEX: Privacy-preserving decentralized exchange.
-
 ## Community & Support
 
-  - **Website**: [0xio.xyz](https://0xio.xyz)
-  - **X/Twitter**: [@0xio\_xyz](https://x.com/0xio_xyz)
-  - **GitHub**: [@0xio-xyz](https://github.com/0xio-xyz/)
-  - **Telegram**: [@Nullxgery](https://t.me/nullXgery)
-  - **Documentation**: [docs.0xio.xyz](https://docs.0xio.xyz)
-  - **Email**: team@0xio.xyz
-  - **Issues**: Report bugs via GitHub Issues
+- **Website**: [0xio.xyz](https://0xio.xyz)
+- **X/Twitter**: [@0xio_xyz](https://x.com/0xio_xyz)
+- **GitHub**: [@0xio-xyz](https://github.com/0xio-xyz/)
+- **Telegram**: [@Nullxgery](https://t.me/nullXgery)
+- **Documentation**: [docs.0xio.xyz](https://docs.0xio.xyz)
+- **Email**: team@0xio.xyz
 
 ## License & Terms
 
-### Current Version (v2.0+)
+### Current Version
 
-**0xio Wallet (React/Vite)** is **Proprietary Software**.
-Copyright © 2026 0xio Labs. All Rights Reserved.
+**0xio Wallet, Desktop, and Mobile** are **Proprietary Software**.
+Copyright &copy; 2026 0xio Labs. All Rights Reserved.
 Unauthorized copying, modification, distribution, or use of this software is strictly prohibited.
 
-### Legacy Version (v1.0)
+### Legacy Version
 
-The **Legacy 0xio Extension** (located in the `legacy/` directory) remains open-source under the **MIT License**. It is provided for educational and archival purposes only.
+The **Legacy 0xio Extension** (located in the `legacy/` directory) remains open-source under the **MIT License** for educational purposes.
 
------
+---
 
-## Legal & Disclaimer
-
-**0xio Wallet** is a proprietary software product developed and maintained by **0xio Labs**.
-
-While designed exclusively for the **Octra Network**, 0xio Labs is an independent entity and is not affiliated with Octra Labs. This software is provided "as is", without warranty of any kind. Users are responsible for the security of their recovery phrases and private keys.
-
-> **Future Open Source Commitment:**
-> While the current codebase is proprietary to ensure integrity during our initial launch phase, we believe in the open-source ethos of Web3. We plan to open-source the v2.0 codebase once our security audits and feature stability phases are complete.
+**0xio** is developed and maintained by **0xio Labs**. While designed exclusively for the **Octra Network**, 0xio Labs is an independent entity and is not affiliated with Octra Labs. This software is provided "as is", without warranty of any kind. Users are responsible for the security of their recovery phrases and private keys.
