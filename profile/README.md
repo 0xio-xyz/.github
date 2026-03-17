@@ -17,7 +17,8 @@ The 0xio Wallet is a high-performance browser extension built with React and Vit
 - **Privacy Cryptography (PVAC):** FHE encrypt/decrypt, range proofs, stealth transfers — all in-browser via WASM
 - **Vault Architecture:** Single encrypted vault protected by AES-GCM with 900,000 PBKDF2 iterations
 - **Multi-Wallet:** Create and manage up to 20 wallets per installation
-- **dApp Ready:** Seamless connectivity via the `@0xio/sdk`
+- **dApp Ready:** Seamless connectivity via the `@0xio/sdk` with origin-verified transaction approval
+- **Asset Management:** Custom token import and NFT collection gallery with on-chain ownership enumeration
 - **FHE Tools:** Standalone encrypt/decrypt UI + automatic FHE parameter expansion in contract calls
 - **Supply Chain Security:** Protected against malicious npm packages using LavaMoat
 
@@ -95,6 +96,7 @@ Official TypeScript/JavaScript SDK for integrating 0xio Wallet with decentralize
 - Message signing (Ed25519)
 - Transaction finality tracking (`pending`, `confirmed`, `rejected`)
 - Balance encryption/decryption and private transfer claiming
+- Contract interaction (call, call-view, storage reads)
 - Event-driven architecture with typed events
 - Rate limiting and retry with exponential backoff
 - Full TypeScript support with strict readonly interfaces
@@ -236,6 +238,8 @@ PVAC (Privacy Via Additive Ciphers) is 0xio's custom privacy system built on ful
 - [x] **JSON-RPC Migration:** Network layer migrated from REST to JSON-RPC 2.0.
 - [x] **FHE Tools:** Standalone encrypt/decrypt + contract call FHE integration across all platforms.
 - [x] **Desktop App:** Tauri + Rust desktop wallet with native crypto backend.
+- [x] **NFT Gallery:** Collection import and on-chain ownership display in the browser extension.
+- [x] **dApp Approval UX:** Origin verification, wallet context, and auto-reject on popup close.
 - [ ] Mobile Public Beta: Native iOS & Android apps with biometric security.
 - [ ] 0xio DEX: Privacy-preserving concentrated liquidity exchange.
 - [ ] Open Source: Planned open-source release after security audits.
