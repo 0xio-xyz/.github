@@ -17,9 +17,17 @@ The 0xio Wallet is a high-performance browser extension built with React and Vit
 - **Privacy Cryptography (PVAC):** FHE encrypt/decrypt, range proofs, stealth transfers — all in-browser via WASM
 - **Vault Architecture:** Single encrypted vault protected by AES-GCM with 900,000 PBKDF2 iterations
 - **Multi-Wallet:** Create and manage up to 20 wallets per installation
+- **HD Account Derivation:** Derive multiple accounts from a single seed phrase
+- **OAT Token Transfers:** Select and send OAT tokens alongside OCT
+- **Fee Recommendations:** Dynamic fee estimates from the network via `octra_recommendedFee` RPC
+- **Token Auto-Discovery:** Automatic detection of token holdings from on-chain contracts
 - **dApp Ready:** Seamless connectivity via the `@0xio/sdk` with origin-verified transaction approval
 - **Asset Management:** Custom token import and NFT collection gallery with on-chain ownership enumeration
 - **FHE Tools:** Standalone encrypt/decrypt UI + automatic FHE parameter expansion in contract calls
+- **Instant Transaction History:** Pending transactions appear immediately; devnet uses fast node RPC
+- **Staging/Mempool View:** View pending transactions and contract call/deploy types in history
+- **Custom RPC URL:** Connect to any Octra-compatible node
+- **Internationalization:** 5 languages (English, Indonesian, Chinese, Japanese, Korean)
 - **Supply Chain Security:** Protected against malicious npm packages using LavaMoat
 
 **Install:** [Chrome Web Store](https://chromewebstore.google.com/detail/0xio-wallet/anknhjilldkeelailocijnfibefmepcc)
@@ -42,6 +50,14 @@ Native desktop wallet powered by Tauri 2 and Rust. Offloads heavy cryptographic 
 - **FHE Tools:** Encrypt/decrypt UI + contract call FHE integration (same as extension)
 - **Contract Interaction:** Deploy, call, and call-view smart contracts with FHE parameter support
 - **Full Wallet Management:** Create, import, send, receive, claim — feature parity with extension
+- **HD Account Derivation:** Derive multiple accounts from a single seed phrase
+- **Stealth Send:** Private transfers with ECDH key exchange and stealth tags
+- **Token Auto-Discovery:** Automatic detection of token holdings from on-chain contracts
+- **Fee Recommendations:** Dynamic fee estimates from the network via `octra_recommendedFee` RPC
+- **Contract Verification & Browser:** Verify deployed contracts and browse contract storage
+- **Staging/Mempool View:** View pending transactions in transaction history
+- **Key Display:** View and export wallet public/private keys
+- **DApp Connection:** Connect to the browser extension as a PVAC computation accelerator
 
 **Tech Stack:**
 - **Framework:** Tauri 2 (Rust backend + React frontend)
@@ -65,10 +81,20 @@ Native mobile wallet for iOS and Android with privacy operations powered by pvac
 - DApp browser with wallet provider injection
 - Transaction history with pending tracking
 - Address book for saved contacts
-- QR code generation and sharing
+- QR code scanning and generation
 - Internationalization (English, Bahasa Indonesia, Chinese, Japanese, Korean)
 - Dark theme
 - Hide balances toggle
+- **Production Readiness:**
+  - Terms of Service acceptance screen
+  - Screenshot and screen recording prevention
+  - Accessibility labels and hints throughout
+  - Push notification support
+  - Secure clipboard (auto-clear after timeout)
+  - Backup reminder for unprotected wallets
+  - Network connection status indicator
+  - Jailbreak/root detection warnings
+  - Transaction confirmations with biometric/PIN authentication
 
 **Tech Stack:**
 - React Native 0.81 + Expo SDK 54 (New Architecture enabled)
@@ -101,6 +127,7 @@ Official TypeScript/JavaScript SDK for integrating 0xio Wallet with decentralize
 - Rate limiting and retry with exponential backoff
 - Full TypeScript support with strict readonly interfaces
 - Framework agnostic (React, Vue, Svelte, Vanilla JS)
+- **v2.4.0:** iframe/frame bridge for desktop and mobile wallet connectivity
 
 **Installation:**
 ```bash
@@ -110,7 +137,7 @@ npm install @0xio/sdk
 ### 0xio DEX
 **Status:** In Development
 
-Privacy-preserving decentralized exchange with concentrated liquidity (CLMM) for trading encrypted assets on the Octra Network.
+Privacy-preserving decentralized exchange with concentrated liquidity (CLMM) for trading encrypted assets on the Octra Network. Cleaned up codebase with configurable token whitelist and stale quote protection.
 
 **URL:** [dex.0xio.xyz](https://dex.0xio.xyz)
 
@@ -180,7 +207,7 @@ PVAC (Privacy Via Additive Ciphers) is 0xio's custom privacy system built on ful
 ┌──────────────┴────────────────────────────────────┴───────────────┐
 │                     dApps (Web Applications)                      │
 │                   React, Vue, Svelte, Vanilla JS                  │
-│                        @0xio/sdk (npm)                            │
+│               @0xio/sdk v2.4.0 (npm, iframe bridge)               │
 └───────────────────────────────┬──────────────────────────────────┘
                                 │
                           JSON-RPC 2.0
@@ -240,6 +267,11 @@ PVAC (Privacy Via Additive Ciphers) is 0xio's custom privacy system built on ful
 - [x] **Desktop App:** Tauri + Rust desktop wallet with native crypto backend.
 - [x] **NFT Gallery:** Collection import and on-chain ownership display in the browser extension.
 - [x] **dApp Approval UX:** Origin verification, wallet context, and auto-reject on popup close.
+- [x] **Extension v2.2.5:** OAT token transfers, fee recommendations, HD derivation, instant history, 5 languages.
+- [x] **Desktop Webcli Parity:** HD derivation, stealth send, token discovery, fee recommendations, contract verification, contract browser, staging view, key display, DApp connection.
+- [x] **Mobile Production Hardening:** QR scanner, ToS screen, screenshot prevention, accessibility, push notifications, secure clipboard, backup reminder, connection status, jailbreak detection, transaction confirmations with auth.
+- [x] **SDK v2.4.0:** iframe/frame bridge for desktop and mobile wallet connectivity.
+- [x] **DEX Cleanup:** Configurable token whitelist, stale quote protection.
 - [ ] Mobile Public Beta: Native iOS & Android apps with biometric security.
 - [ ] 0xio DEX: Privacy-preserving concentrated liquidity exchange.
 - [ ] Open Source: Planned open-source release after security audits.
