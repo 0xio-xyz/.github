@@ -9,7 +9,7 @@ Privacy-first wallet ecosystem for the Octra Network, built by **0xio Labs**.
 ## Products
 
 ### Browser Extension (0xio wallet)
-**Status:** Live on Chrome Web Store
+**Status:** Live on Chrome Web Store (v2.2.7)
 
 The 0xio Wallet is a high-performance browser extension built with React and Vite. It serves as the primary interface for managing Octra Network assets, with native FHE privacy operations powered by pvac-rs compiled to WebAssembly.
 
@@ -40,7 +40,7 @@ The 0xio Wallet is a high-performance browser extension built with React and Vit
 - **Standard:** Chrome Extension Manifest V3
 
 ### Desktop Application (0xio Desktop)
-**Status:** In Development
+**Status:** Alpha (v0.1.0) — macOS (Apple Silicon), signed and notarized by Apple
 
 Native desktop wallet powered by Tauri 2 and Rust. Offloads heavy cryptographic operations (range proofs, FHE encrypt/decrypt) to native Rust via a local WebSocket bridge, achieving the fastest privacy operation performance across all platforms.
 
@@ -58,6 +58,12 @@ Native desktop wallet powered by Tauri 2 and Rust. Offloads heavy cryptographic 
 - **Staging/Mempool View:** View pending transactions in transaction history
 - **Key Display:** View and export wallet public/private keys
 - **DApp Connection:** Connect to the browser extension as a PVAC computation accelerator
+- **AI Contract Assistant:** AI-powered contract interaction guidance
+- **Auto-Updater:** Automatic update checks and installation
+- **Sentry Crash Reporting:** Error monitoring and diagnostics
+- **Debug Console:** Built-in developer debugging tools
+- **RPC Proxy Support:** Caching RPC proxy for improved performance
+- **Apple Notarization:** Signed and notarized for macOS Gatekeeper
 
 **Tech Stack:**
 - **Framework:** Tauri 2 (Rust backend + React frontend)
@@ -66,7 +72,7 @@ Native desktop wallet powered by Tauri 2 and Rust. Offloads heavy cryptographic 
 - **Bridge:** WebSocket (pvac-handler crate)
 
 ### Mobile Applications (0xio_app)
-**Status:** In Development (Beta)
+**Status:** Alpha (v1.0.0) — iOS on TestFlight, Android under review
 
 Native mobile wallet for iOS and Android with privacy operations powered by pvac-rs compiled to platform-native libraries (iOS static lib, Android shared lib via JNI/FFI).
 
@@ -85,6 +91,10 @@ Native mobile wallet for iOS and Android with privacy operations powered by pvac
 - Internationalization (English, Bahasa Indonesia, Chinese, Japanese, Korean)
 - Dark theme
 - Hide balances toggle
+- RPC proxy for fast history loading
+- Dual-network history (mainnet + devnet)
+- Sentry crash reporting
+- Dynamic recommended fees per operation type
 - **Production Readiness:**
   - Terms of Service acceptance screen
   - Screenshot and screen recording prevention
@@ -127,7 +137,8 @@ Official TypeScript/JavaScript SDK for integrating 0xio Wallet with decentralize
 - Rate limiting and retry with exponential backoff
 - Full TypeScript support with strict readonly interfaces
 - Framework agnostic (React, Vue, Svelte, Vanilla JS)
-- **v2.4.0:** iframe/frame bridge for desktop and mobile wallet connectivity
+- **v2.4.2:** iframe/frame bridge for desktop and mobile wallet connectivity
+- **v2.4.2:** Cross-origin iframe bridge for localhost dev testing
 
 **Installation:**
 ```bash
@@ -138,6 +149,11 @@ npm install @0xio/sdk
 **Status:** In Development
 
 Privacy-preserving decentralized exchange with concentrated liquidity (CLMM) for trading encrypted assets on the Octra Network. Cleaned up codebase with configurable token whitelist and stale quote protection.
+
+**Features:**
+- Concentrated liquidity (CLMM) swap
+- Bridge (OCT <-> wOCT) — lock functional, claim pending Merkle proof API
+- Dynamic fee estimation
 
 **URL:** [dex.0xio.xyz](https://dex.0xio.xyz)
 
@@ -207,7 +223,7 @@ PVAC (Privacy Via Additive Ciphers) is 0xio's custom privacy system built on ful
 ┌──────────────┴────────────────────────────────────┴───────────────┐
 │                     dApps (Web Applications)                      │
 │                   React, Vue, Svelte, Vanilla JS                  │
-│               @0xio/sdk v2.4.0 (npm, iframe bridge)               │
+│               @0xio/sdk v2.4.2 (npm, iframe bridge)               │
 └───────────────────────────────┬──────────────────────────────────┘
                                 │
                           JSON-RPC 2.0
@@ -237,11 +253,16 @@ PVAC (Privacy Via Additive Ciphers) is 0xio's custom privacy system built on ful
 | Repository | Description | Status |
 |------------|-------------|--------|
 | **0xio_wallet** | React-based browser extension wallet | Live |
-| **0xio-desktop** | Tauri + Rust desktop application | Development |
-| **0xio_app** | React Native mobile application (iOS & Android) | Development (Beta) |
+| **0xio-desktop** | Tauri + Rust desktop application | Alpha |
+| **0xio_app** | React Native mobile application (iOS & Android) | Alpha |
 | **0xio_SDK** | TypeScript SDK for dApp integration | Published on npm |
 | **0xio_web** | Marketing website and onboarding | Live at 0xio.xyz |
 | **documentation** | Mintlify-powered docs site | Live at docs.0xio.xyz |
+| **0xio-alpha** | Alpha portal — invite-code gated distribution | Live |
+| **0xio-rpc-proxy** | Caching RPC proxy | Live |
+| **0xio-push-server** | Push notification service | Live |
+| **0xio-dex** | Privacy-preserving DEX | Development |
+| **Token-lists** | Token registry | Live |
 | **Legacy** | Archived Vanilla JS extension code | Archived |
 
 ## Technology Stack
@@ -270,9 +291,11 @@ PVAC (Privacy Via Additive Ciphers) is 0xio's custom privacy system built on ful
 - [x] **Extension v2.2.5:** OAT token transfers, fee recommendations, HD derivation, instant history, 5 languages.
 - [x] **Desktop Webcli Parity:** HD derivation, stealth send, token discovery, fee recommendations, contract verification, contract browser, staging view, key display, DApp connection.
 - [x] **Mobile Production Hardening:** QR scanner, ToS screen, screenshot prevention, accessibility, push notifications, secure clipboard, backup reminder, connection status, jailbreak detection, transaction confirmations with auth.
-- [x] **SDK v2.4.0:** iframe/frame bridge for desktop and mobile wallet connectivity.
+- [x] **SDK v2.4.2:** iframe/frame bridge for desktop and mobile wallet connectivity.
 - [x] **DEX Cleanup:** Configurable token whitelist, stale quote protection.
-- [ ] Mobile Public Beta: Native iOS & Android apps with biometric security.
+- [x] Mobile Public Beta: Native iOS & Android apps with biometric security.
+- [x] SDK v2.4.2: Cross-origin iframe bridge, security hardening.
+- [x] Alpha Portal: Invite-code gated distribution at alpha.0xio.xyz.
 - [ ] 0xio DEX: Privacy-preserving concentrated liquidity exchange.
 - [ ] Open Source: Planned open-source release after security audits.
 
@@ -286,10 +309,10 @@ PVAC (Privacy Via Additive Ciphers) is 0xio's custom privacy system built on ful
 3. Start managing your Octra assets.
 
 **Desktop App:**
-- *Coming soon.*
+- Alpha available at [alpha.0xio.xyz](https://alpha.0xio.xyz). macOS (Apple Silicon) only.
 
 **Mobile App:**
-- *Coming soon to iOS and Android.*
+- Alpha available at [alpha.0xio.xyz](https://alpha.0xio.xyz). iOS via TestFlight, Android coming soon.
 
 ### For Developers
 
