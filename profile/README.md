@@ -72,7 +72,7 @@ Native desktop wallet powered by Tauri 2 and Rust. Offloads heavy cryptographic 
 - **Bridge:** WebSocket (pvac-handler crate)
 
 ### Mobile Applications (0xio_app)
-**Status:** Alpha (v1.0.2) — iOS on TestFlight, Android on Google Play (closed testing)
+**Status:** Alpha (v1.0.2) — iOS on TestFlight, Android on Google Play
 
 Native mobile wallet for iOS and Android with privacy operations powered by pvac-rs compiled to platform-native libraries (iOS static lib, Android shared lib via JNI/FFI).
 
