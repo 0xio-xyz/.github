@@ -315,10 +315,10 @@ PVAC (Privacy Via Additive Ciphers) is 0xio's custom privacy system built on ful
 3. Start managing your Octra assets.
 
 **Desktop App:**
-- Alpha available at [alpha.0xio.xyz](https://alpha.0xio.xyz). macOS (Apple Silicon) only.
+- Alpha available at [alpha.0xio.xyz](https://alpha.0xio.xyz). macOS (Apple Silicon) and Windows.
 
 **Mobile App:**
-- Alpha available at [alpha.0xio.xyz](https://alpha.0xio.xyz). iOS via TestFlight, Android coming soon.
+- Alpha available at [alpha.0xio.xyz](https://alpha.0xio.xyz). iOS via TestFlight, Android on Google Play.
 
 ### For Developers
 
