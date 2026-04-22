@@ -9,7 +9,7 @@ Privacy-first wallet ecosystem for the Octra Network, built by **0xio Labs**.
 ## Products
 
 ### Browser Extension (0xio wallet)
-**Status:** Live on Chrome Web Store (v2.3.0)
+**Status:** Live on Chrome Web Store (v2.3.1)
 
 The 0xio Wallet is a high-performance browser extension built with React and Vite. It serves as the primary interface for managing Octra Network assets, with native FHE privacy operations powered by pvac-rs compiled to WebAssembly.
 
@@ -22,7 +22,8 @@ The 0xio Wallet is a high-performance browser extension built with React and Vit
 - **Fee Recommendations:** Dynamic fee estimates from the network via `octra_recommendedFee` RPC
 - **Token Auto-Discovery:** Automatic detection of token holdings from on-chain contracts
 - **dApp Ready:** Seamless connectivity via the `@0xio/sdk` with origin-verified transaction approval
-- **Asset Management:** Custom token import and NFT collection gallery with on-chain ownership enumeration
+- **Asset Management:** Custom token import and NFT collection gallery with on-chain ownership enumeration and collection removal
+- **Live Price Feeds:** Real-time OCT price from 0xio oracle (CoinGecko + DexScreener aggregation), USD portfolio worth display
 - **FHE Tools:** Standalone encrypt/decrypt UI + automatic FHE parameter expansion in contract calls
 - **Instant Transaction History:** Pending transactions appear immediately; devnet uses fast node RPC
 - **Staging/Mempool View:** View pending transactions and contract call/deploy types in history
@@ -36,6 +37,7 @@ The 0xio Wallet is a high-performance browser extension built with React and Vit
 - **Framework:** React 18 + Vite
 - **Styling:** TailwindCSS
 - **Cryptography:** pvac-rs (WASM + rayon multithreading), TweetNaCl (Ed25519), Web Crypto API
+- **Price Feeds:** 0xio Oracle (multi-source aggregation)
 - **State Management:** React Context + Hooks
 - **Standard:** Chrome Extension Manifest V3
 
@@ -259,6 +261,7 @@ PVAC (Privacy Via Additive Ciphers) is 0xio's custom privacy system built on ful
 | **0xio_web** | Marketing website and onboarding | Live at 0xio.xyz |
 | **documentation** | Mintlify-powered docs site | Live at docs.0xio.xyz |
 | **0xio-alpha** | Alpha portal — invite-code gated distribution | Live |
+| **0xio-oracle** | Multi-source price oracle (Rust) | Live |
 | **0xio-rpc-proxy** | Caching RPC proxy | Live |
 | **0xio-push-server** | Push notification service | Live |
 | **0xio-dex** | Privacy-preserving DEX | Development |
@@ -273,6 +276,7 @@ PVAC (Privacy Via Additive Ciphers) is 0xio's custom privacy system built on ful
 | **Desktop App** | Tauri 2, Rust, React, TypeScript, TailwindCSS, pvac-rs (native) |
 | **Mobile App** | React Native 0.81, Expo 54, TypeScript 5.9, TanStack Query, pvac-rs (FFI) |
 | **Cryptography** | pvac-rs (curve25519-dalek), @noble/hashes, TweetNaCl (Ed25519), AES-GCM, PBKDF2 |
+| **Price Oracle** | Rust, Axum, PostgreSQL, CoinGecko + DexScreener aggregation |
 | **SDK** | TypeScript, Rollup |
 | **Smart Contracts** | AML (AppliedML) — Octra's contract language |
 | **Blockchain** | Octra Network |
@@ -301,6 +305,8 @@ PVAC (Privacy Via Additive Ciphers) is 0xio's custom privacy system built on ful
 - [x] **Mobile v1.0.2:** Unified transaction review modal, nonce auto-retry, custom nonce support, dynamic fees, history method names, NFT SVG rendering, wallet delete cleanup.
 - [x] **NFT Standards:** Support for SNS-1 (Spectrum) and Biont (Euint Labs) NFT standards across all platforms.
 - [x] **RPC Proxy:** Caching proxy reducing history responses from 8.3MB to 7KB.
+- [x] **Price Oracle:** Multi-source price aggregation (CoinGecko + DexScreener) with anomaly detection, PostgreSQL price history, and CoinGecko 30-day backfill.
+- [x] **Extension v2.3.1:** Live OCT price feeds, USD portfolio worth chart with oracle price history, NFT collection removal, production console stripping.
 - [ ] 0xio DEX: Privacy-preserving concentrated liquidity exchange.
 - [ ] Bridge: OCT ↔ wOCT cross-chain bridge (lock functional, claim pending Merkle proof API).
 - [ ] Open Source: Planned open-source release after security audits.
