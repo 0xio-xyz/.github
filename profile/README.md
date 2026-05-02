@@ -9,7 +9,7 @@ Privacy-first wallet ecosystem for the Octra Network, built by **0xio Labs**.
 ## Products
 
 ### Browser Extension (0xio wallet)
-**Status:** Live on Chrome Web Store (v2.3.1)
+**Status:** Live on Chrome Web Store (v2.3.4)
 
 The 0xio Wallet is a high-performance browser extension built with React and Vite. It serves as the primary interface for managing Octra Network assets, with native FHE privacy operations powered by pvac-rs compiled to WebAssembly.
 
@@ -139,8 +139,9 @@ Official TypeScript/JavaScript SDK for integrating 0xio Wallet with decentralize
 - Rate limiting and retry with exponential backoff
 - Full TypeScript support with strict readonly interfaces
 - Framework agnostic (React, Vue, Svelte, Vanilla JS)
-- **v2.4.2:** iframe/frame bridge for desktop and mobile wallet connectivity
-- **v2.4.2:** Cross-origin iframe bridge for localhost dev testing
+- **v2.4.4:** FHE/PVAC DApp support, 180s timeout for proof-heavy calls
+- **v2.4.3:** No-retry for interactive methods, 120s timeout
+- **v2.4.2:** Cross-origin iframe bridge for desktop/mobile DApp browser
 
 **Installation:**
 ```bash
@@ -148,23 +149,58 @@ npm install @0xio/sdk
 ```
 
 ### 0xio DEX
-**Status:** In Development
+**Status:** Testnet
 
-Privacy-preserving decentralized exchange with concentrated liquidity (CLMM) for trading encrypted assets on the Octra Network. Cleaned up codebase with configurable token whitelist and stale quote protection.
-
-**Features:**
-- Concentrated liquidity (CLMM) swap
-- Bridge (OCT <-> wOCT) — lock functional, claim pending Merkle proof API
-- Dynamic fee estimation
+Privacy-preserving decentralized exchange with concentrated liquidity (CLMM) for trading encrypted assets on the Octra Network.
 
 **URL:** [dex.0xio.xyz](https://dex.0xio.xyz)
 
-### Atlas
-**Status:** Live (Beta)
+### 0xio Bridge
+**Status:** Live (Alpha)
 
-Blockchain visualization and analytics platform for the Octra Network.
+Cross-chain bridge between Octra and Ethereum. Lock OCT on Octra, claim wOCT on Ethereum (and reverse). Client-side claim construction using ethers.js ABI encoding — no reliance on third-party signers.
 
-**URL:** [atlas.0xio.xyz](https://atlas.0xio.xyz)
+**Features:**
+- OCT → wOCT (lock on Octra, claim on Ethereum)
+- wOCT → OCT (burn on Ethereum, auto-unlock on Octra)
+- On-chain transaction history from Ethereum events
+- Real-time analytics at `/stats` and `/transactions`
+- Persistent wallet connection with auto-reconnect
+
+**URL:** [bridge.0xio.xyz](https://bridge.0xio.xyz)
+
+### PVAC SDK (@0xio/pvac)
+**Status:** Published on npm
+
+Standalone FHE privacy primitives for building privacy-aware DApps on Octra. Runs entirely client-side via WASM — no extension dependency for cryptographic operations.
+
+**Package:** `@0xio/pvac`
+
+**Features:**
+- FHE encrypt/decrypt (PVAC-HFHE scheme)
+- Range proofs (64-bit, parallelizable via rayon)
+- Bound proofs (zero-knowledge)
+- Cipher arithmetic (ctAdd, ctSub)
+- Pedersen commitments
+- WASM bundled (3.2MB) — zero setup
+
+**Installation:**
+```bash
+npm install @0xio/pvac
+```
+
+### 0xio Oracle
+**Status:** Live
+
+Multi-source price aggregation (CoinGecko + DexScreener) with anomaly detection, historical price storage, and bridge analytics tracking.
+
+**Features:**
+- OCT/USD price with 24h change, volume, liquidity
+- Price history (30s intervals, 30-day backfill)
+- Bridge event tracking and on-chain sync
+- API key authentication for protected endpoints
+
+**URL:** oracle.0xio.xyz
 
 ### Telegram Bot
 **Status:** Live
@@ -225,7 +261,7 @@ PVAC (Privacy Via Additive Ciphers) is 0xio's custom privacy system built on ful
 ┌──────────────┴────────────────────────────────────┴───────────────┐
 │                     dApps (Web Applications)                      │
 │                   React, Vue, Svelte, Vanilla JS                  │
-│               @0xio/sdk v2.4.2 (npm, iframe bridge)               │
+│               @0xio/sdk v2.4.4 (npm, iframe bridge)               │
 └───────────────────────────────┬───────────────────────────────────┘
                                 │
                           JSON-RPC 2.0
@@ -295,10 +331,10 @@ PVAC (Privacy Via Additive Ciphers) is 0xio's custom privacy system built on ful
 - [x] **Extension v2.2.5:** OAT token transfers, fee recommendations, HD derivation, instant history, 5 languages.
 - [x] **Desktop Webcli Parity:** HD derivation, stealth send, token discovery, fee recommendations, contract verification, contract browser, staging view, key display, DApp connection.
 - [x] **Mobile Production Hardening:** QR scanner, ToS screen, screenshot prevention, accessibility, push notifications, secure clipboard, backup reminder, connection status, jailbreak detection, transaction confirmations with auth.
-- [x] **SDK v2.4.2:** iframe/frame bridge for desktop and mobile wallet connectivity.
+- [x] **SDK v2.4.4:** iframe/frame bridge for desktop and mobile wallet connectivity.
 - [x] **DEX Cleanup:** Configurable token whitelist, stale quote protection.
 - [x] Mobile Public Beta: Native iOS & Android apps with biometric security.
-- [x] SDK v2.4.2: Cross-origin iframe bridge, security hardening.
+- [x] SDK v2.4.4: Cross-origin iframe bridge, security hardening.
 - [x] Alpha Portal: Invite-code gated distribution at alpha.0xio.xyz.
 - [x] **Extension v2.3.0:** On-chain SVG NFT rendering, ABI-driven NFT transfers, dual-network history, RPC proxy, contract method names in history.
 - [x] **Desktop v0.2.0:** NFT SVG + ABI transfer, unified history labels, DApp browser settings, account discovery (HD scan), double-fire guard, Windows build via CI.
@@ -306,7 +342,7 @@ PVAC (Privacy Via Additive Ciphers) is 0xio's custom privacy system built on ful
 - [x] **NFT Standards:** Support for SNS-1 (Spectrum) and Biont (Euint Labs) NFT standards across all platforms.
 - [x] **RPC Proxy:** Caching proxy reducing history responses from 8.3MB to 7KB.
 - [x] **Price Oracle:** Multi-source price aggregation (CoinGecko + DexScreener) with anomaly detection, PostgreSQL price history, and CoinGecko 30-day backfill.
-- [x] **Extension v2.3.1:** Live OCT price feeds, USD portfolio worth chart with oracle price history, NFT collection removal, production console stripping.
+- [x] **Extension v2.3.4:** Live OCT price feeds, USD portfolio worth chart with oracle price history, NFT collection removal, production console stripping.
 - [ ] 0xio DEX: Privacy-preserving concentrated liquidity exchange.
 - [ ] Bridge: OCT ↔ wOCT cross-chain bridge (lock functional, claim pending Merkle proof API).
 - [ ] Open Source: Planned open-source release after security audits.
