@@ -9,7 +9,7 @@ Privacy-first wallet ecosystem for the Octra Network, built by **0xio Labs**.
 ## Products
 
 ### Browser Extension (0xio wallet)
-**Status:** Live on Chrome Web Store (v2.3.4)
+**Status:** Live on Chrome Web Store (v2.4.0)
 
 The 0xio Wallet is a high-performance browser extension built with React and Vite. It serves as the primary interface for managing Octra Network assets, with native FHE privacy operations powered by pvac-rs compiled to WebAssembly.
 
@@ -25,6 +25,10 @@ The 0xio Wallet is a high-performance browser extension built with React and Vit
 - **Asset Management:** Custom token import and NFT collection gallery with on-chain ownership enumeration and collection removal
 - **Live Price Feeds:** Real-time OCT price from 0xio oracle (CoinGecko + DexScreener aggregation), USD portfolio worth display
 - **FHE Tools:** Standalone encrypt/decrypt UI + automatic FHE parameter expansion in contract calls
+- **RFC-O-1 Provider:** `window.octra` standard provider interface for third-party wallet interop
+- **Privacy Transaction Preview:** Review sheet for encrypt/decrypt/claim before confirmation
+- **Proof Generation Overlay:** Step-by-step progress with circuit counter and elapsed timer
+- **Resilient RPC:** HTTPS primary (`octra.network`) with automatic fallback, 502/504 retry
 - **Instant Transaction History:** Pending transactions appear immediately; devnet uses fast node RPC
 - **Staging/Mempool View:** View pending transactions and contract call/deploy types in history
 - **Custom RPC URL:** Connect to any Octra-compatible node
@@ -139,6 +143,7 @@ Official TypeScript/JavaScript SDK for integrating 0xio Wallet with decentralize
 - Rate limiting and retry with exponential backoff
 - Full TypeScript support with strict readonly interfaces
 - Framework agnostic (React, Vue, Svelte, Vanilla JS)
+- **v2.7.0:** RFC-O-1 OctraProviderAdapter for third-party wallet support
 - **v2.4.4:** FHE/PVAC DApp support, 180s timeout for proof-heavy calls
 - **v2.4.3:** No-retry for interactive methods, 120s timeout
 - **v2.4.2:** Cross-origin iframe bridge for desktop/mobile DApp browser
@@ -236,6 +241,9 @@ PVAC (Privacy Via Additive Ciphers) is 0xio's custom privacy system built on ful
 - **pvac-rs** — Custom Rust library implementing all PVAC operations
   - `curve25519-dalek` for elliptic curve arithmetic
   - Multithreaded range proof generation (work-stealing across CPU cores)
+  - Parallel decrypt: base layer PRF distributed across threads (7-8x speedup)
+  - WASM+rayon path for browser offscreen documents (4-8x decrypt speedup)
+  - Input validation guards on decrypt/verify entry points
   - Compiles to: WASM (extension), iOS static lib, Android shared lib, native binary (desktop)
 - **@noble/hashes** — PBKDF2, SHA-256, HMAC for key derivation
 - **TweetNaCl** — Ed25519 signing and key pair generation
@@ -343,6 +351,11 @@ PVAC (Privacy Via Additive Ciphers) is 0xio's custom privacy system built on ful
 - [x] **RPC Proxy:** Caching proxy reducing history responses from 8.3MB to 7KB.
 - [x] **Price Oracle:** Multi-source price aggregation (CoinGecko + DexScreener) with anomaly detection, PostgreSQL price history, and CoinGecko 30-day backfill.
 - [x] **Extension v2.3.4:** Live OCT price feeds, USD portfolio worth chart with oracle price history, NFT collection removal, production console stripping.
+- [x] **Extension v2.4.0:** RFC-O-1 provider interface, privacy tx preview, proof overlay, RPC migration to octra.network, PVAC decrypt parallelism, error 116 retry, pending→confirmed promotion, claim scan progress.
+- [x] **SDK v2.7.0:** RFC-O-1 OctraProviderAdapter for third-party wallet support, audit remediation.
+- [x] **pvac-rs:** Decrypt parallelism (native threads + WASM rayon), input validation guards, Prod layer OOB fix.
+- [x] **Oracle:** BridgeSync RPC fallback chain, mainnet RPC migration.
+- [x] **Infra:** All repos migrated from bare IP to octra.network HTTPS endpoint.
 - [ ] 0xio DEX: Privacy-preserving concentrated liquidity exchange.
 - [ ] Bridge: OCT ↔ wOCT cross-chain bridge (lock functional, claim pending Merkle proof API).
 - [ ] Open Source: Planned open-source release after security audits.
