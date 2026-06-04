@@ -9,7 +9,7 @@ Privacy-first wallet ecosystem for the Octra Network, built by **0xio Labs**.
 ## Products
 
 ### Browser Extension (0xio wallet)
-**Status:** Live on Chrome Web Store (v2.4.0)
+**Status:** Live on Chrome Web Store (v2.4.3)
 
 The 0xio Wallet is a high-performance browser extension built with React and Vite. It serves as the primary interface for managing Octra Network assets, with native FHE privacy operations powered by pvac-rs compiled to WebAssembly.
 
@@ -46,7 +46,7 @@ The 0xio Wallet is a high-performance browser extension built with React and Vit
 - **Standard:** Chrome Extension Manifest V3
 
 ### Desktop Application (0xio Desktop)
-**Status:** Alpha (v0.2.0) — macOS (Apple Silicon) + Windows, signed and notarized by Apple
+**Status:** Alpha (v0.2.2) — macOS (Apple Silicon) + Windows, signed and notarized by Apple
 
 Native desktop wallet powered by Tauri 2 and Rust. Offloads heavy cryptographic operations (range proofs, FHE encrypt/decrypt) to native Rust via a local WebSocket bridge, achieving the fastest privacy operation performance across all platforms.
 
@@ -78,7 +78,7 @@ Native desktop wallet powered by Tauri 2 and Rust. Offloads heavy cryptographic 
 - **Bridge:** WebSocket (pvac-handler crate)
 
 ### Mobile Applications (0xio_app)
-**Status:** Alpha (v1.0.2) — iOS on TestFlight, Android on Google Play
+**Status:** Alpha (v1.2.0) — iOS on TestFlight, Android on Google Play
 
 Native mobile wallet for iOS and Android with privacy operations powered by pvac-rs compiled to platform-native libraries (iOS static lib, Android shared lib via JNI/FFI).
 
@@ -143,7 +143,8 @@ Official TypeScript/JavaScript SDK for integrating 0xio Wallet with decentralize
 - Rate limiting and retry with exponential backoff
 - Full TypeScript support with strict readonly interfaces
 - Framework agnostic (React, Vue, Svelte, Vanilla JS)
-- **v2.7.0:** RFC-O-1 OctraProviderAdapter for third-party wallet support
+- **v2.7.1:** Security audit remediation (`networkId` fallback removed, `trustedParentOrigins`, exact-amount validation) + RFC-O-1 `window.octra` provider adapter
+- **v2.7.0:** Pluggable wallet-adapter system, session-nonce transport hardening, RFC-O-1 OctraProviderAdapter for third-party wallet support
 - **v2.4.4:** FHE/PVAC DApp support, 180s timeout for proof-heavy calls
 - **v2.4.3:** No-retry for interactive methods, 120s timeout
 - **v2.4.2:** Cross-origin iframe bridge for desktop/mobile DApp browser
@@ -154,9 +155,9 @@ npm install @0xio/sdk
 ```
 
 ### 0xio DEX
-**Status:** Testnet
+**Status:** Devnet
 
-Privacy-preserving decentralized exchange with concentrated liquidity (CLMM) for trading encrypted assets on the Octra Network.
+Cross-chain swap protocol for the Octra Network — swap OCT ↔ ETH via a SwapVault contract and an off-chain solver pipeline (lock → fill → attest → settle). Same-chain concentrated-liquidity (CLMM) pools are planned.
 
 **URL:** [dex.0xio.xyz](https://dex.0xio.xyz)
 
@@ -269,7 +270,7 @@ PVAC (Privacy Via Additive Ciphers) is 0xio's custom privacy system built on ful
 ┌──────────────┴────────────────────────────────────┴───────────────┐
 │                     dApps (Web Applications)                      │
 │                   React, Vue, Svelte, Vanilla JS                  │
-│               @0xio/sdk v2.4.4 (npm, iframe bridge)               │
+│               @0xio/sdk v2.7.1 (npm, iframe bridge)               │
 └───────────────────────────────┬───────────────────────────────────┘
                                 │
                           JSON-RPC 2.0
@@ -308,7 +309,7 @@ PVAC (Privacy Via Additive Ciphers) is 0xio's custom privacy system built on ful
 | **0xio-oracle** | Multi-source price oracle (Rust) | Live |
 | **0xio-rpc-proxy** | Caching RPC proxy | Live |
 | **0xio-push-server** | Push notification service | Live |
-| **0xio-dex** | Privacy-preserving DEX | Development |
+| **0xio-dex** | Cross-chain swap protocol (CLMM planned) | Devnet |
 | **Token-lists** | Token registry | Live |
 | **Legacy** | Archived Vanilla JS extension code | Archived |
 
@@ -346,13 +347,15 @@ PVAC (Privacy Via Additive Ciphers) is 0xio's custom privacy system built on ful
 - [x] Alpha Portal: Invite-code gated distribution at alpha.0xio.xyz.
 - [x] **Extension v2.3.0:** On-chain SVG NFT rendering, ABI-driven NFT transfers, dual-network history, RPC proxy, contract method names in history.
 - [x] **Desktop v0.2.0:** NFT SVG + ABI transfer, unified history labels, DApp browser settings, account discovery (HD scan), double-fire guard, Windows build via CI.
+- [x] **Desktop v0.2.2:** Per-wallet portfolio chart (value + OCT/USD toggle), Touch-ID-first auth on all sensitive actions, bulk-send overhaul (live summary, duplicate + insufficient-balance guards, per-row stealth progress), built-in-browser explorer links, devnet-only RPC proxy, full stealth re-scan, command palette + sidebar wallet switcher, in-app signed auto-update.
 - [x] **Mobile v1.0.2:** Unified transaction review modal, nonce auto-retry, custom nonce support, dynamic fees, history method names, NFT SVG rendering, wallet delete cleanup.
 - [x] **NFT Standards:** Support for SNS-1 (Spectrum) and Biont (Euint Labs) NFT standards across all platforms.
 - [x] **RPC Proxy:** Caching proxy reducing history responses from 8.3MB to 7KB.
 - [x] **Price Oracle:** Multi-source price aggregation (CoinGecko + DexScreener) with anomaly detection, PostgreSQL price history, and CoinGecko 30-day backfill.
 - [x] **Extension v2.3.4:** Live OCT price feeds, USD portfolio worth chart with oracle price history, NFT collection removal, production console stripping.
 - [x] **Extension v2.4.0:** RFC-O-1 provider interface, privacy tx preview, proof overlay, RPC migration to octra.network, PVAC decrypt parallelism, error 116 retry, pending→confirmed promotion, claim scan progress.
-- [x] **SDK v2.7.0:** RFC-O-1 OctraProviderAdapter for third-party wallet support, audit remediation.
+- [x] **SDK v2.7.0:** Pluggable wallet-adapter system, session-nonce transport hardening, RFC-O-1 OctraProviderAdapter, audit remediation.
+- [x] **SDK v2.7.1:** Security re-assessment (`networkId` fallback removed → `NETWORK_ERROR`, `trustedParentOrigins`, exact micro-OCT amount validation) + RFC-O-1 `window.octra` provider adapter.
 - [x] **pvac-rs:** Decrypt parallelism (native threads + WASM rayon), input validation guards, Prod layer OOB fix.
 - [x] **Oracle:** BridgeSync RPC fallback chain, mainnet RPC migration.
 - [x] **Infra:** All repos migrated from bare IP to octra.network HTTPS endpoint.
