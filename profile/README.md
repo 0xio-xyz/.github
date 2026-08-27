@@ -9,13 +9,17 @@ Privacy-first wallet ecosystem for the Octra Network, built by **0xio Labs**.
 ## Products
 
 ### Browser Extension (0xio wallet)
-**Status:** Live on Chrome Web Store (v2.4.3)
+**Status:** Live on Chrome Web Store (v2.5.3)
 
 The 0xio Wallet is a high-performance browser extension built with React and Vite. It serves as the primary interface for managing Octra Network assets, with native FHE privacy operations powered by pvac-rs compiled to WebAssembly.
 
 **Features:**
 - **Privacy Cryptography (PVAC):** FHE encrypt/decrypt, range proofs, stealth transfers — all in-browser via WASM
-- **Vault Architecture:** Single encrypted vault protected by AES-GCM with 900,000 PBKDF2 iterations
+- **Cross-Chain Swap:** In-wallet OCT → ETH swap backed by the 0xio solver, with live quotes and staged progress tracking
+- **Claim Protection:** Per-account claim budget stops any claim batch before it can push an encrypted balance past its recoverable layer limit
+- **Vault Architecture:** Single encrypted vault protected by AES-GCM with 900,000 PBKDF2 iterations, password verifier derived separately from the encryption key
+- **Signed-Message Safety:** Domain-separated `signMessage` framing so a site can never disguise a fund-moving transaction as a plain message
+- **Custom Networks:** Add your own Octra RPC endpoint with explicit trust warnings and informational chain detection
 - **Multi-Wallet:** Create and manage up to 20 wallets per installation
 - **HD Account Derivation:** Derive multiple accounts from a single seed phrase
 - **OAT Token Transfers:** Select and send OAT tokens alongside OCT
@@ -31,7 +35,7 @@ The 0xio Wallet is a high-performance browser extension built with React and Vit
 - **Resilient RPC:** HTTPS primary (`octra.network`) with automatic fallback, 502/504 retry
 - **Instant Transaction History:** Pending transactions appear immediately; devnet uses fast node RPC
 - **Staging/Mempool View:** View pending transactions and contract call/deploy types in history
-- **Custom RPC URL:** Connect to any Octra-compatible node
+- **Desktop Acceleration:** Heavy PVAC proof generation offloads to 0xio Desktop when connected
 - **Internationalization:** 5 languages (English, Indonesian, Chinese, Japanese, Korean)
 - **Supply Chain Security:** Protected against malicious npm packages using LavaMoat
 
@@ -43,10 +47,10 @@ The 0xio Wallet is a high-performance browser extension built with React and Vit
 - **Cryptography:** pvac-rs (WASM + rayon multithreading), TweetNaCl (Ed25519), Web Crypto API
 - **Price Feeds:** 0xio Oracle (multi-source aggregation)
 - **State Management:** React Context + Hooks
-- **Standard:** Chrome Extension Manifest V3
+- **Standard:** Chrome Extension Manifest V3 (separate Firefox build target)
 
 ### Desktop Application (0xio Desktop)
-**Status:** Alpha (v0.2.2) — macOS (Apple Silicon) + Windows, signed and notarized by Apple
+**Status:** Alpha (v0.3.0) — macOS (Apple Silicon) + Windows, signed and notarized by Apple
 
 Native desktop wallet powered by Tauri 2 and Rust. Offloads heavy cryptographic operations (range proofs, FHE encrypt/decrypt) to native Rust via a local WebSocket bridge, achieving the fastest privacy operation performance across all platforms.
 
@@ -78,7 +82,7 @@ Native desktop wallet powered by Tauri 2 and Rust. Offloads heavy cryptographic 
 - **Bridge:** WebSocket (pvac-handler crate)
 
 ### Mobile Applications (0xio_app)
-**Status:** Alpha (v1.2.0) — iOS on TestFlight, Android on Google Play
+**Status:** Alpha (v1.2.3) — iOS on TestFlight, Android on Google Play
 
 Native mobile wallet for iOS and Android with privacy operations powered by pvac-rs compiled to platform-native libraries (iOS static lib, Android shared lib via JNI/FFI).
 
@@ -359,6 +363,10 @@ PVAC (Privacy Via Additive Ciphers) is 0xio's custom privacy system built on ful
 - [x] **pvac-rs:** Decrypt parallelism (native threads + WASM rayon), input validation guards, Prod layer OOB fix.
 - [x] **Oracle:** BridgeSync RPC fallback chain, mainnet RPC migration.
 - [x] **Infra:** All repos migrated from bare IP to octra.network HTTPS endpoint.
+- [x] **Extension v2.5.0:** Cross-browser build system — dedicated Firefox target with single-threaded PVAC WASM.
+- [x] **Extension v2.5.1:** In-wallet cross-chain swap (OCT → ETH) via the 0xio solver with live quotes and settle tracking.
+- [x] **Extension v2.5.2:** Vault verifier/key separation, domain-separated signMessage, custom networks with trust warnings, desktop reconnect.
+- [x] **Extension v2.5.3:** Claim layer budget (freeze prevention), canonical key recognition, in-place compact on private send, paginated stealth scanning.
 - [ ] 0xio DEX: Privacy-preserving concentrated liquidity exchange.
 - [ ] Bridge: OCT ↔ wOCT cross-chain bridge (lock functional, claim pending Merkle proof API).
 - [ ] Open Source: Planned open-source release after security audits.
