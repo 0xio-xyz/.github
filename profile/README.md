@@ -4,20 +4,20 @@ Privacy-first wallets for the Octra Network, built by **0xio Labs**.
 
 **Install any 0xio client: [0xio.xyz/install](https://0xio.xyz/install)**
 
-0xio covers a browser extension, a desktop app, a mobile app and developer tools, all built on one privacy stack: fully homomorphic encryption (FHE) for balances and transfers whose amounts stay encrypted on chain.
+0xio covers a browser extension, a desktop app, a mobile app and developer tools, all built on one privacy stack: fully homomorphic encryption (FHE) for balances and transfers whose amounts stay encrypted on chain. The next extension release adds an EVM wallet on the same recovery phrase.
 
 ## Products
 
 | Product | Status | Get it |
 |---------|--------|--------|
-| Browser Extension | Live, v2.5.5 (Chrome Web Store; Firefox in review) | [0xio.xyz/install](https://0xio.xyz/install) |
-| Desktop Wallet | Live, v0.4.2 (macOS Apple Silicon, Windows; signed and notarized) | [0xio.xyz/install](https://0xio.xyz/install) |
-| Mobile Wallet | v1.3.0 (iOS TestFlight, App Store release in review; Android Google Play open testing) | [0xio.xyz/install](https://0xio.xyz/install) |
-| Developer SDK | Published, `@0xio/sdk` v2.8.1 | [npm](https://www.npmjs.com/package/@0xio/sdk) |
+| Browser Extension | Live, v2.5.6 (Chrome Web Store; Firefox in review). v3.0.0 with EVM is the next release | [0xio.xyz/install](https://0xio.xyz/install) |
+| Desktop Wallet | Live, v0.5.2 (macOS Apple Silicon, Windows; signed and notarized) | [0xio.xyz/install](https://0xio.xyz/install) |
+| Mobile Wallet | v1.3.3 (iOS TestFlight, Android Google Play open testing; App Store resubmission planned) | [0xio.xyz/install](https://0xio.xyz/install) |
+| Developer SDK | Published, `@0xio/sdk` v2.8.1 (v2.9.0 with contract deploys is next) | [npm](https://www.npmjs.com/package/@0xio/sdk) |
 | PVAC SDK | Published, `@0xio/pvac` | [npm](https://www.npmjs.com/package/@0xio/pvac) |
 | 0xio Bridge | Live, OCT and wOCT (Ethereum), any chain to OCT | [bridge.0xio.xyz](https://bridge.0xio.xyz) |
 | 0xio DEX | Devnet, OCT and ETH cross-chain swap | [dex.0xio.xyz](https://dex.0xio.xyz) |
-| 0xio Oracle | Live, OCT/USD price aggregation | oracle.0xio.xyz |
+| 0xio Oracle | Live, OCT/USD from the wOCT/ETH Uniswap v4 pool and live ETH/USD | oracle.0xio.xyz |
 | Telegram Bot | Live, wallet monitoring | [@NullXio_bot](https://t.me/NullXio_bot) |
 
 ### Browser Extension
@@ -35,11 +35,21 @@ React 18 + Vite, Manifest V3, with a separate Firefox build. Privacy operations 
 - Heavy proofs offload to 0xio Desktop when it runs
 - English, Indonesian, Chinese, Japanese and Korean
 
+**Next release, v3.0.0** (committed, not yet in the stores):
+
+- EVM wallet: one recovery phrase makes the Octra address and one 0x address. Ethereum and Robinhood Chain are built in, custom EVM networks and ERC-20 import are supported, and accounts added from a phrase get their own 0x address
+- One history for Octra and EVM, sorted by time
+- The bridge inside the wallet: OCT to wOCT, wOCT to OCT, and any chain to OCT through Relay, each step with its own review, and stuck transfers found again from the chains
+- EVM for websites: discovery through EIP-6963, connect, `personal_sign`, typed data and transactions, each with a review
+- Contract deploys from websites, on EVM and on Octra, with a review of the code size, the new address and the live fee
+- A black and white redesign of the Dim theme
+
 ### Desktop Wallet
 
 Tauri 2 with a Rust backend and a React front end. pvac-rs runs natively, which makes it the fastest place to build privacy proofs, and it can accelerate the extension on the same machine.
 
 - Full wallet: create, import, send, receive, private balance, claims, NFTs
+- Menu bar panel on macOS: balance, send and receive, encrypt and decrypt, claims and a command line, with a review before anything is signed
 - Contracts: deploy, call, call-view and verification, with FHE parameters
 - Built-in browser for dApps and `oct://` circles
 - Touch ID and Windows Hello
@@ -50,6 +60,7 @@ Tauri 2 with a Rust backend and a React front end. pvac-rs runs natively, which 
 React Native 0.86 and Expo SDK 57. pvac-rs ships as native libraries (iOS static library, Android shared library).
 
 - PIN and biometric unlock
+- Every send, signature and connection confirmed with a slide before anything is signed
 - Private balance with the same rules as the extension and desktop
 - dApp browser with tabs, and WalletConnect
 - NFT gallery, address book, QR send and receive
@@ -58,7 +69,7 @@ React Native 0.86 and Expo SDK 57. pvac-rs ships as native libraries (iOS static
 
 ### Developer SDK
 
-`@0xio/sdk` connects dApps to any 0xio wallet: connection, public and private transactions, balances, message signing, contract calls, finality tracking and typed events. Framework agnostic, full TypeScript types.
+`@0xio/sdk` connects dApps to any 0xio wallet: connection, public and private transactions, balances, message signing, contract calls, finality tracking and typed events. Framework agnostic, full TypeScript types. The next version, 2.9.0, adds `deployContract` (needs extension 3.0.0).
 
 ```bash
 npm install @0xio/sdk
@@ -86,6 +97,7 @@ await wallet.connect();
 - **Master key:** `HMAC-SHA512("Octra seed", seed)[0:32]`, the same on every platform.
 - **Signing:** Ed25519 (TweetNaCl).
 - **Address:** SHA-256 of the public key, Base58, `oct` prefix, 47 characters.
+- **EVM (extension 3.0.0):** secp256k1 key on the standard path `m/44'/60'/0'/0/i` from the same phrase. The key is derived for each signature, checked against the wallet's 0x address and wiped after. Private key wallets have no EVM address.
 
 ### Privacy (PVAC)
 
@@ -112,15 +124,17 @@ flowchart TB
     ext["Browser Extension<br/>React + Vite, pvac-rs WASM"]
     desk["Desktop Wallet<br/>Tauri 2 + Rust, pvac-rs native"]
     mob["Mobile Wallet<br/>React Native + Expo, pvac-rs FFI"]
-    dapps["dApps<br/>@0xio/sdk"]
+    dapps["dApps<br/>@0xio/sdk, EIP-6963"]
     net["Octra Network<br/>JSON-RPC 2.0, FHE balances, AML contracts"]
-    svc["0xio services<br/>oracle, indexer, push, opt-in RPC proxy"]
+    evm["EVM networks<br/>Ethereum, Robinhood Chain, custom chains"]
+    svc["0xio services<br/>oracle (price, EVM history), indexer, push, opt-in RPC proxy"]
 
     dapps --> ext
     dapps --> desk
     dapps --> mob
     ext -. proof offload .-> desk
     ext --> net
+    ext --> evm
     desk --> net
     mob --> net
     ext --> svc
@@ -132,10 +146,10 @@ flowchart TB
 
 | Repository | What it is | Status |
 |------------|------------|--------|
-| **0xio-extensions** | Browser extension | Live |
-| **0xio-desktop** | Desktop wallet (Tauri + Rust) | Live |
+| **0xio-extensions** | Browser extension | Live (2.5.6), 3.0.0 with EVM next |
+| **0xio-desktop** | Desktop wallet (Tauri + Rust) | Live (0.5.2) |
 | **0xio-app** | Mobile wallet (iOS and Android) | TestFlight and Google Play open testing |
-| **0xio-sdk** | `@0xio/sdk` | Published on npm |
+| **0xio-sdk** | `@0xio/sdk` | Published on npm (2.8.1), 2.9.0 next |
 | **0xio-pvac** | `@0xio/pvac` | Published on npm |
 | **pvac-rs** | Privacy library (Rust) | Used by every client |
 | **0xio-eco-one** | Website, install page and desktop update feed | Live at 0xio.xyz |
@@ -143,7 +157,7 @@ flowchart TB
 | **0xio-bridge** | OCT and wOCT bridge | Live |
 | **0xio-dex** | Cross-chain swap | Devnet |
 | **0xio-solver** | Swap solver | Devnet |
-| **0xio-oracle** | Price oracle (Rust) | Live |
+| **0xio-oracle** | Price oracle and EVM history (Rust) | Live |
 | **0xio-indexer** | Chain indexer | Live |
 | **0xio-rpc-proxy** | Caching RPC proxy, opt-in | Live |
 | **0xio-push-server** | Push notifications | Live |
@@ -159,7 +173,11 @@ flowchart TB
 - [x] `@0xio/sdk` and `@0xio/pvac` on npm
 - [x] Bridge between OCT and wOCT, and any chain to OCT
 - [x] One install page for every client at 0xio.xyz/install
-- [ ] Mobile wallet on the App Store and Google Play production (App Store release in review)
+- [x] EVM wallet in the extension (one phrase, Octra and 0x addresses, Ethereum and custom networks)
+- [x] Bridge inside the extension (OCT and wOCT, any chain through Relay)
+- [ ] Extension 3.0.0 with EVM on the Chrome Web Store
+- [ ] `@0xio/sdk` 2.9.0 (contract deploys) on npm
+- [ ] Mobile wallet on the App Store and Google Play production (App Store resubmission with v1.3.3)
 - [ ] Extension on Mozilla Add-ons (in review)
 - [ ] 0xio DEX on mainnet
 - [ ] Open-source release after security audits
