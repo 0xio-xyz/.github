@@ -10,13 +10,13 @@ Privacy-first wallets for the Octra Network, built by **0xio Labs**.
 
 | Product | Status | Get it |
 |---------|--------|--------|
-| Browser extension | Live, v3.0.4 (Chrome Web Store; Firefox pending) | [0xio.xyz/install](https://0xio.xyz/install) |
+| Browser extension | Live, v3.0.6 (Chrome Web Store; Firefox pending). Open source (GPL-3.0-only) | [0xio.xyz/install](https://0xio.xyz/install), source: [0xio-wallet](https://github.com/0xio-xyz/0xio-wallet) |
 | Desktop wallet | Live, v0.7.0 (macOS on Apple silicon and Intel, Windows; signed and notarized) | [0xio.xyz/install](https://0xio.xyz/install) |
-| Phone apps | v1.3.3 (iOS TestFlight, Android Google Play open testing). Native iOS and Android apps, v2.0.0, are in development and will replace it | [0xio.xyz/install](https://0xio.xyz/install) |
+| Phone apps | Native apps v2.0.0: iOS on the App Store, Android in Google Play open testing | [0xio.xyz/install](https://0xio.xyz/install) |
 | Developer SDK | `@0xio/sdk` v2.12.2 | [npm](https://www.npmjs.com/package/@0xio/sdk) |
 | PVAC SDK | `@0xio/pvac` v1.0.1 | [npm](https://www.npmjs.com/package/@0xio/pvac) |
 | 0xio Bridge | Offline for now. OCT and wOCT (Ethereum), any chain to OCT | [bridge.0xio.xyz](https://bridge.0xio.xyz) |
-| 0xio DEX | Offline for now. OCT and ETH cross-chain swap on devnet | [dex.0xio.xyz](https://dex.0xio.xyz) |
+| 0xio DEX | Offline for now | [dex.0xio.xyz](https://dex.0xio.xyz) |
 | 0xio Oracle | Live, OCT/USD from the wOCT/ETH Uniswap v4 pool and live ETH/USD | oracle.0xio.xyz |
 | Token lists | Tokens, NFT collections and name services, read by every client | [Token-lists](https://github.com/0xio-xyz/Token-lists) |
 | Telegram bot | Live, wallet monitoring | [@NullXio_bot](https://t.me/NullXio_bot) |
@@ -24,6 +24,8 @@ Privacy-first wallets for the Octra Network, built by **0xio Labs**.
 ### Browser extension
 
 React and Vite, Manifest V3, with a separate Firefox build. Privacy operations run in the browser through pvac-rs compiled to WebAssembly.
+
+The extension is open source under GPL-3.0-only at [0xio-wallet](https://github.com/0xio-xyz/0xio-wallet). Its runtime code depends on ten well-known packages (signing, hashing, key derivation and React); the rest, from the QR code to the router, is written in the repository. The README covers building it yourself, and SECURITY.md covers reporting a vulnerability.
 
 - Private balances: encrypt, decrypt, private sends and claims, with a claim budget that keeps every balance within its recoverable layer limit
 - EVM wallet: one recovery phrase makes the Octra address and one 0x address. Ethereum and Robinhood Chain are built in, with custom EVM networks and ERC-20 import
@@ -53,7 +55,7 @@ Tauri 2 with a Rust backend and a React front end. pvac-rs runs natively, which 
 
 ### Phone apps
 
-The app in the stores today is React Native and Expo. Its replacements are native: SwiftUI on iOS, Kotlin and Jetpack Compose on Android, each with the wallet logic in its own library checked against shared test vectors. pvac-rs ships as a native library on both.
+The apps are native: SwiftUI on iOS, Kotlin and Jetpack Compose on Android, each with the wallet logic in its own library checked against shared test vectors. pvac-rs ships as a native library on both.
 
 - PIN and biometric unlock
 - Every send, signature and connection confirmed with a slide before anything is signed
@@ -155,11 +157,11 @@ flowchart TB
 
 | Repository | What it is | Status |
 |------------|------------|--------|
-| **0xio-extensions** | Browser extension | Live (3.0.4) |
+| **0xio-wallet** | Browser extension, open source (GPL-3.0-only) | Live (3.0.6) |
 | **0xio-desktop** | Desktop wallet (Tauri + Rust) | Live (0.7.0) |
-| **0xio-app-ios** | Native iPhone app (SwiftUI) | In development |
-| **0xio-app-android** | Native Android app (Kotlin, Compose) | In development |
-| **0xio-app** | Phone app (React Native), being replaced by the native apps | TestFlight and Google Play open testing |
+| **0xio-app-ios** | iPhone app (SwiftUI) | App Store (2.0.0) |
+| **0xio-app-android** | Android app (Kotlin, Compose) | Google Play open testing (2.0.0) |
+| **0xio-app** | Previous phone app (React Native), replaced by the native apps | Kept for older Android devices (1.3.3) |
 | **0xio-sdk** | `@0xio/sdk` | Public, on npm (2.12.2) |
 | **0xio-pvac** | `@0xio/pvac` | Public, on npm |
 | **pvac-rs** | Privacy library (Rust) | Used by every client |
@@ -170,8 +172,8 @@ flowchart TB
 | **0xio-eco-one** | Website, install page and desktop update feed | Live at 0xio.xyz |
 | **dev-portal** | Developer accounts and API keys | Live |
 | **0xio-bridge** | OCT and wOCT bridge | Offline for now |
-| **0xio-dex** | Cross-chain swap | Devnet, offline for now |
-| **0xio-solver** | Swap solver | Devnet, offline for now |
+| **0xio-dex** | Exchange | Offline for now |
+| **0xio-solver** | Swap solver for the earlier cross-chain DEX | Offline |
 | **0xio-oracle** | Price oracle and EVM history (Rust) | Live |
 | **0xio-indexer** | Chain indexer | Live |
 | **0xio-rpc-proxy** | Caching RPC proxy, opt-in | Live |
@@ -185,19 +187,19 @@ Shipped:
 - Browser extension on the Chrome Web Store with full FHE privacy and an EVM wallet
 - Bridge inside the extension (OCT and wOCT, any chain to OCT)
 - Desktop wallet for macOS and Windows with native proofs and signed updates
-- Phone app on TestFlight and Google Play open testing
+- Native iOS app on the App Store and native Android app in Google Play open testing
+- Browser extension open source under GPL-3.0-only
 - `@0xio/sdk` and `@0xio/pvac` on npm
 - One install page for every client at 0xio.xyz/install
 - Octra names in every wallet and in the SDK (devnet)
 
 Next:
 
-- Native iOS and Android apps, v2.0.0, on TestFlight and then in the App Store and Google Play
+- Native Android app in Google Play production
 - Extension on Mozilla Add-ons (pending)
 - Bridge and DEX sites back online
 - Octra names on mainnet when the name service launches there
-- 0xio DEX on mainnet
-- Open-source release after security audits
+- 0xio DEX
 
 ## Getting started
 
@@ -217,7 +219,11 @@ Next:
 
 ## License
 
-**0xio Wallet, Desktop and the phone apps** are proprietary software. Copyright &copy; 2026 0xio Labs. All rights reserved. Unauthorized copying, modification, distribution or use is prohibited.
+The **0xio browser extension** ([0xio-wallet](https://github.com/0xio-xyz/0xio-wallet)) is open source under the GNU General Public License v3.0 only (GPL-3.0-only).
+
+**`@0xio/sdk`** ([0xio-sdk](https://github.com/0xio-xyz/0xio-sdk)) and [Token-lists](https://github.com/0xio-xyz/Token-lists) are open source under the MIT License.
+
+**0xio Desktop and the phone apps** are proprietary software. Copyright &copy; 2026 0xio Labs. All rights reserved. Unauthorized copying, modification, distribution or use is prohibited.
 
 The **legacy 0xio extension** ([Legacy](https://github.com/0xio-xyz/Legacy)) remains open source under the MIT License for educational purposes.
 
