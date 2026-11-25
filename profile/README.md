@@ -11,8 +11,8 @@ Privacy-first wallets for the Octra Network, built by **0xio Labs**.
 | Product | Status | Get it |
 |---------|--------|--------|
 | Browser extension | Live, v3.0.6 (Chrome Web Store; Firefox pending). Open source (GPL-3.0-only) | [0xio.xyz/install](https://0xio.xyz/install), source: [0xio-wallet](https://github.com/0xio-xyz/0xio-wallet) |
-| Desktop wallet | Live, v0.7.0 (macOS on Apple silicon and Intel, Windows; signed and notarized) | [0xio.xyz/install](https://0xio.xyz/install) |
-| Phone apps | Native apps v2.0.0: iOS on the App Store, Android in Google Play open testing | [0xio.xyz/install](https://0xio.xyz/install) |
+| Desktop wallet | Live, v0.7.3 (macOS on Apple silicon and Intel, Windows; signed and notarized) | [0xio.xyz/install](https://0xio.xyz/install) |
+| Phone apps | Native apps v2.0.0: Android on Google Play, iOS on TestFlight | [0xio.xyz/install](https://0xio.xyz/install) |
 | Developer SDK | `@0xio/sdk` v2.12.2 | [npm](https://www.npmjs.com/package/@0xio/sdk) |
 | PVAC SDK | `@0xio/pvac` v1.0.1 | [npm](https://www.npmjs.com/package/@0xio/pvac) |
 | 0xio Bridge | Offline for now. OCT and wOCT (Ethereum), any chain to OCT | [bridge.0xio.xyz](https://bridge.0xio.xyz) |
@@ -158,9 +158,9 @@ flowchart TB
 | Repository | What it is | Status |
 |------------|------------|--------|
 | **0xio-wallet** | Browser extension, open source (GPL-3.0-only) | Live (3.0.6) |
-| **0xio-desktop** | Desktop wallet (Tauri + Rust) | Live (0.7.0) |
-| **0xio-app-ios** | iPhone app (SwiftUI) | App Store (2.0.0) |
-| **0xio-app-android** | Android app (Kotlin, Compose) | Google Play open testing (2.0.0) |
+| **0xio-desktop** | Desktop wallet (Tauri + Rust) | Live (0.7.3) |
+| **0xio-app-ios** | iPhone app (SwiftUI) | TestFlight (2.0.0) |
+| **0xio-app-android** | Android app (Kotlin, Compose) | Google Play (2.0.0) |
 | **0xio-app** | Previous phone app (React Native), replaced by the native apps | Kept for older Android devices (1.3.3) |
 | **0xio-sdk** | `@0xio/sdk` | Public, on npm (2.12.2) |
 | **0xio-pvac** | `@0xio/pvac` | Public, on npm |
@@ -187,7 +187,7 @@ Shipped:
 - Browser extension on the Chrome Web Store with full FHE privacy and an EVM wallet
 - Bridge inside the extension (OCT and wOCT, any chain to OCT)
 - Desktop wallet for macOS and Windows with native proofs and signed updates
-- Native iOS app on the App Store and native Android app in Google Play open testing
+- Native Android app on Google Play and native iOS app on TestFlight
 - Browser extension open source under GPL-3.0-only
 - `@0xio/sdk` and `@0xio/pvac` on npm
 - One install page for every client at 0xio.xyz/install
@@ -195,7 +195,7 @@ Shipped:
 
 Next:
 
-- Native Android app in Google Play production
+- Native iOS app on the App Store
 - Extension on Mozilla Add-ons (pending)
 - Bridge and DEX sites back online
 - Octra names on mainnet when the name service launches there
