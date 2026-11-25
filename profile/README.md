@@ -10,8 +10,8 @@ Privacy-first wallets for the Octra Network, built by **0xio Labs**.
 
 | Product | Status | Get it |
 |---------|--------|--------|
-| Browser extension | Live, v3.0.6 (Chrome Web Store; Firefox pending). Open source (GPL-3.0-only) | [0xio.xyz/install](https://0xio.xyz/install), source: [0xio-wallet](https://github.com/0xio-xyz/0xio-wallet) |
-| Desktop wallet | Live, v0.7.3 (macOS on Apple silicon and Intel, Windows; signed and notarized) | [0xio.xyz/install](https://0xio.xyz/install) |
+| Browser extension | Live, v3.0.6 (Chrome Web Store; Firefox pending). Open source (MIT) | [0xio.xyz/install](https://0xio.xyz/install), source: [0xio-wallet](https://github.com/0xio-xyz/0xio-wallet) |
+| Desktop wallet | Live, v0.7.3 (macOS on Apple silicon and Intel, Windows; signed and notarized). Open source (MIT) | [0xio.xyz/install](https://0xio.xyz/install), source: [0xio-desktop-app](https://github.com/0xio-xyz/0xio-desktop-app) |
 | Phone apps | Native apps v2.0.0: Android on Google Play, iOS on TestFlight | [0xio.xyz/install](https://0xio.xyz/install) |
 | Developer SDK | `@0xio/sdk` v2.12.2 | [npm](https://www.npmjs.com/package/@0xio/sdk) |
 | PVAC SDK | `@0xio/pvac` v1.0.1 | [npm](https://www.npmjs.com/package/@0xio/pvac) |
@@ -25,7 +25,7 @@ Privacy-first wallets for the Octra Network, built by **0xio Labs**.
 
 React and Vite, Manifest V3, with a separate Firefox build. Privacy operations run in the browser through pvac-rs compiled to WebAssembly.
 
-The extension is open source under GPL-3.0-only at [0xio-wallet](https://github.com/0xio-xyz/0xio-wallet). Its runtime code depends on ten well-known packages (signing, hashing, key derivation and React); the rest, from the QR code to the router, is written in the repository. The README covers building it yourself, and SECURITY.md covers reporting a vulnerability.
+The extension is open source under MIT at [0xio-wallet](https://github.com/0xio-xyz/0xio-wallet). Its runtime code depends on ten well-known packages (signing, hashing, key derivation and React); the rest, from the QR code to the router, is written in the repository. The README covers building it yourself, docs/ explains the architecture, and SECURITY.md covers reporting a vulnerability.
 
 - Private balances: encrypt, decrypt, private sends and claims, with a claim budget that keeps every balance within its recoverable layer limit
 - EVM wallet: one recovery phrase makes the Octra address and one 0x address. Ethereum and Robinhood Chain are built in, with custom EVM networks and ERC-20 import
@@ -43,12 +43,14 @@ The extension is open source under GPL-3.0-only at [0xio-wallet](https://github.
 
 Tauri 2 with a Rust backend and a React front end. pvac-rs runs natively, which makes it the fastest place to build privacy proofs, and it can do them for the extension on the same machine.
 
+The desktop wallet is open source under MIT at [0xio-desktop-app](https://github.com/0xio-xyz/0xio-desktop-app). Like the extension, its runtime code depends only on well-known packages; the rest is written in the repository. The privacy engine (pvac-rs) is not part of the public source.
+
 - Full wallet: create, import, send, receive, private balance, claims, NFTs
 - Keys stay in Rust: the private key and recovery phrase never reach the page
 - Menu bar panel on macOS: balance, send and receive, encrypt and decrypt, claims and a command line, with a review before anything is signed
-- Circles: publish files or a whole folder, sealed circles, and a built-in browser for `oct://` addresses and dApps
+- Circles: publish files or a whole folder, sealed circles, and a built-in browser for `oct://` addresses and dApps. A Circle asks once before it can use the wallet, and the approval can be removed in Connected sites
 - Octra names on devnet: send to `0xio.oct`, open a Circle by name
-- Contracts: deploy, call, call-view and verification, with FHE parameters
+- Contracts: an editor with build, audit, deploy, call, call-view and verification, with FHE parameters, and an AI assistant that uses your own provider key or a model on this computer
 - Sites in any browser can use the desktop wallet through the extension
 - Touch ID and Windows Hello
 - Signed updates (minisign), served through 0xio.xyz
@@ -108,7 +110,7 @@ PVAC is 0xio's privacy system on fully homomorphic encryption: encrypted balance
 - **Stealth transfers:** ECDH one-time addresses the recipient finds by scanning
 - **Zero proofs** for decrypting back to a public balance
 
-`pvac-rs` implements all of it in Rust (curve25519-dalek, multithreaded proofs and decrypts) and compiles to WASM, iOS, Android and native desktop.
+`pvac-rs` implements all of it in Rust (curve25519-dalek, multithreaded proofs and decrypts) and compiles to WASM, iOS, Android and native desktop. It is a port of the PVAC engine in Octra Labs' reference client [webcli](https://github.com/octra-labs/webcli), released under the BSD 3-Clause License.
 
 ### Every transaction is reviewed
 
@@ -157,8 +159,8 @@ flowchart TB
 
 | Repository | What it is | Status |
 |------------|------------|--------|
-| **0xio-wallet** | Browser extension, open source (GPL-3.0-only) | Live (3.0.6) |
-| **0xio-desktop** | Desktop wallet (Tauri + Rust) | Live (0.7.3) |
+| **0xio-wallet** | Browser extension, open source (MIT) | Live (3.0.6) |
+| **0xio-desktop-app** | Desktop wallet (Tauri + Rust), open source (MIT) | Live (0.7.3) |
 | **0xio-app-ios** | iPhone app (SwiftUI) | TestFlight (2.0.0) |
 | **0xio-app-android** | Android app (Kotlin, Compose) | Google Play (2.0.0) |
 | **0xio-app** | Previous phone app (React Native), replaced by the native apps | Kept for older Android devices (1.3.3) |
@@ -188,7 +190,7 @@ Shipped:
 - Bridge inside the extension (OCT and wOCT, any chain to OCT)
 - Desktop wallet for macOS and Windows with native proofs and signed updates
 - Native Android app on Google Play and native iOS app on TestFlight
-- Browser extension open source under GPL-3.0-only
+- Browser extension and desktop wallet open source under MIT
 - `@0xio/sdk` and `@0xio/pvac` on npm
 - One install page for every client at 0xio.xyz/install
 - Octra names in every wallet and in the SDK (devnet)
@@ -219,11 +221,9 @@ Next:
 
 ## License
 
-The **0xio browser extension** ([0xio-wallet](https://github.com/0xio-xyz/0xio-wallet)) is open source under the GNU General Public License v3.0 only (GPL-3.0-only).
+The **0xio browser extension** ([0xio-wallet](https://github.com/0xio-xyz/0xio-wallet)), **0xio Desktop** ([0xio-desktop-app](https://github.com/0xio-xyz/0xio-desktop-app)), **`@0xio/sdk`** ([0xio-sdk](https://github.com/0xio-xyz/0xio-sdk)) and [Token-lists](https://github.com/0xio-xyz/Token-lists) are open source under the MIT License.
 
-**`@0xio/sdk`** ([0xio-sdk](https://github.com/0xio-xyz/0xio-sdk)) and [Token-lists](https://github.com/0xio-xyz/Token-lists) are open source under the MIT License.
-
-**0xio Desktop and the phone apps** are proprietary software. Copyright &copy; 2026 0xio Labs. All rights reserved. Unauthorized copying, modification, distribution or use is prohibited.
+**The phone apps** are proprietary software. Copyright &copy; 2026 0xio Labs. All rights reserved. Unauthorized copying, modification, distribution or use is prohibited.
 
 The **legacy 0xio extension** ([Legacy](https://github.com/0xio-xyz/Legacy)) remains open source under the MIT License for educational purposes.
 
