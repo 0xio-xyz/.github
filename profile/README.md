@@ -214,7 +214,7 @@ Next:
 - **Website:** [0xio.xyz](https://0xio.xyz)
 - **Install:** [0xio.xyz/install](https://0xio.xyz/install)
 - **Documentation:** [docs.0xio.xyz](https://docs.0xio.xyz)
-- **X:** [@0xio_xyz](https://x.com/0xio_xyz)
+- **X:** [@0xiodotxyz](https://x.com/0xiodotxyz)
 - **GitHub:** [@0xio-xyz](https://github.com/0xio-xyz/)
 - **Telegram:** [@Nullxgery](https://t.me/nullXgery)
 - **Email:** team@0xio.xyz
